@@ -1,0 +1,27 @@
+#logo {
+  position: relative;
+  left: 25px;
+  top: 10px;
+  width: 150px;
+  height: auto;
+}
+
+.button-nav {
+  font-size: 10px;
+  text-align: right;
+}
+
+.button-nav li {
+  text-align: right;
+  display: block;
+}
+
+.login-form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.login-form button {
+  display: block;
+  position: left 100%;
+}

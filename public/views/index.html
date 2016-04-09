@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="myApp" lang="en">
-<head>
-    <title>welcome!</title>
+<html ng-app="myApp">
+  <head>
+    <title>Commutr</title>
     <!-- STYLES -->
     <link rel="stylesheet" href="/assets/vendors/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="/assets/styles/styles.css">
 
     <!-- SCRIPTS -->
     <script type="text/javascript" src="/assets/vendors/angular/angular.min.js"></script>
@@ -12,18 +13,26 @@
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="/assets/scripts/loggedInApp.js"></script>
+    <script type="text/javascript" src="/assets/scripts/app.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/LoginController.js"></script>
     <script type="text/javascript" src="/assets/scripts/controllers/LoggedInController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/AdminRegisterController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
     <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
-</head>
-<body ng-controller="LoggedInController">
-  <ng-include src="'partials/login-header.html'"></ng-include>
-  <ng-include src="'partials/login-nav.html'"></ng-include>
+  </head>
 
-  <main ng-view>
 
-  </main>
+  <body>
 
-  <ng-include src="'partials/login-footer.html'"></ng-include>
-</body>
+
+    <md-content layout-padding>
+
+      <main ng-view>
+
+      </main>
+
+      <ng-include src="'/views/partials/footer.html'"></ng-include>
+    </md-content>
+
+  </body>
 </html>

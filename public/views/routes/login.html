@@ -1,0 +1,41 @@
+<header>
+  <a href="#login"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+</header>
+
+<div  ng-controller="LoginController" class="login-form">
+    <!-- Set form action and method -->
+
+  <form name="userLogin">
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Email</label>
+        <input ng-model="user.email" required>
+      </md-input-container>
+    </div>
+
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Password</label>
+        <input ng-model="user.password" type="password" required>
+      </md-input-container>
+    </div>
+
+    <section layout="row" layout-align="right center">
+      <div flex>
+        <ul class="button-nav">
+          <li><a href="/views/register-user.html">Register User</a></li>
+          <li><a href="/views/register-admin.html">Register Company</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section layout="column" layout-align="center center" layout-wrap>
+      <div flex>
+        <md-button flex ng-click="submit(user)" class="md-raised">LOG IN</md-button>
+      </div>
+
+    </section>
+
+
+  </form>
+</div>

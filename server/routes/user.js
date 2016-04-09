@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 
 // Handles Ajax request for user information if user is authenticated
-router.post('/', function(req, res) {
+router.get('/', function(req, res) {
     // check if logged in
     console.log(req.isAuthenticated());
     if(req.isAuthenticated()) {

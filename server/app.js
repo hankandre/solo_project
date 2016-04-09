@@ -38,8 +38,8 @@ app.use('/', index);
 app.set('port', (process.env.PORT || 5000));
 
 app.get("/*", function(req, res){
-    var file = req.params[0] || "/assets/views/index.html";
-    res.sendFile(path.join(__dirname, "/public/", file));
+    var file = req.params[0] || "/views/index.html";
+    res.sendFile(path.join(__dirname, "../public/", file));
 });
 // Listen //
 app.listen(app.get("port"), function(){

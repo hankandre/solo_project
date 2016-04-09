@@ -8,9 +8,6 @@ myApp.controller('LoginController', ['$scope', 'DataService', function($scope, D
 
     $scope.submit = function(user) {
       DataService.loginUser(user);
-      $scope.user = DataService.user
-      console.log($scope.user);
     }
-
 
 }]);

@@ -2,7 +2,7 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     var data = {};
     var userData = {};
 
-    var companies = ['Prime'];
+    var companies = {};
 
     var getUser = function(){
         $http.get("/user").then(function(response){
@@ -10,12 +10,19 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
         });
     };
 
+    var getCompanies = function() {
+      $http.get('/companies').then(function(response) {
+        companies.response = response.data;
+        console.log(companies);
+      });
+    }
+
     var loginUser = function(user){
       $http.post('/', user).then(function(response){
         if (response.data === false) {
-          $location.path('/failure')
+          $window.location.href = 'views/failure.html';
         } else {
-          // setTimeout($window.location.href = 'assets/views/logged_in/user.html', 10000);
+          $location.path('/user');
           userData.response = response.data;
         }
       });
@@ -33,6 +40,7 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     return {
       user: userData,
       data: data,
+      getCompanies: getCompanies,
       getUser: getUser,
       postUser: postUser,
       loginUser: loginUser,
