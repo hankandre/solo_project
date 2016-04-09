@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="myApp" lang="en">
 <head>
     <title>welcome!</title>
     <!-- STYLES -->
@@ -12,16 +12,18 @@
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="/assets/scripts/app.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/LoginController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/AdminRegisterController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/loggedInApp.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/LoggedInController.js"></script>
     <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
 </head>
-<body ng-app="myApp">
-    <div>
-        <div class="container">
-            <h1 id="welcome" class="lead">Welcome, {{email}}!</h1>
-        </div>
-    </div>
+<body ng-controller="LoggedInController">
+  <ng-include src="'partials/login-header.html'"></ng-include>
+  <ng-include src="'partials/login-nav.html'"></ng-include>
+
+  <main ng-view>
+
+  </main>
+
+  <ng-include src="'partials/login-footer.html'"></ng-include>
 </body>
 </html>

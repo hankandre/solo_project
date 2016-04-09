@@ -2,8 +2,8 @@ var myApp = angular.module('myApp', ['ngMaterial', 'ngMessages', 'ngRoute']);
 
 myApp.config(['$mdThemingProvider', function($mdThemingProvider){
     $mdThemingProvider.theme('default')
-        .primaryPalette('blue-grey')
-        .accentPalette('grey');
+        .primaryPalette('teal')
+        .accentPalette('cyan');
 }]);
 
 myApp.config(["$routeProvider", function($routeProvider) {
@@ -17,10 +17,11 @@ myApp.config(["$routeProvider", function($routeProvider) {
       controller: 'AdminRegisterController'
     }).
     when ('/register-user', {
-      templateUrl: '/assets/views/routes/register-user.html'
+      templateUrl: '/assets/views/routes/register-user.html',
+      controller: 'UserRegistrationController'
     }).
     when('/failure', {
-      templateUrl: '/assets/views/routes/register.html'
+      templateUrl: '/assets/views/routes/failure.html'
     }).
     otherwise({
       redirectTo: '/home'

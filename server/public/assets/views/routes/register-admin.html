@@ -1,4 +1,4 @@
-<md-content layout-padding>
+<md-content layout-padding ng-controller="AdminRegisterController">
     <div style="width : 600px; margin: 0 auto;">
       <div layout-align="center center" layout="column">
           <h3 class="md-title">Admin Registration</h3>
@@ -92,12 +92,12 @@
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm>
             <label>Password</label>
-            <input ng-model="user.password">
+            <input ng-model="user.password" type="password">
           </md-input-container>
 
           <md-input-container class="md-block" flex-gt-sm>
             <label>Verify Password</label>
-            <input ng-model="user.password">
+            <input ng-model="user.password" type="password">
           </md-input-container>
         </div>
 

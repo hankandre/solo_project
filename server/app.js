@@ -8,8 +8,8 @@ var session = require('express-session');
 
 // Route includes
 var index = require('./routes/index');
-// var user = require('./routes/user');
-// var register = require('./routes/register');
+var user = require('./routes/user');
+var register = require('./routes/register');
 
 
 app.use(bodyParser.json());
@@ -30,8 +30,8 @@ app.use(passport.session());
 
 
 // Routes
-// app.post('/register', register);
-// app.post('/user', user);
+app.post('/register', register);
+app.post('/user', user);
 app.use('/', index);
 
 // App Set //

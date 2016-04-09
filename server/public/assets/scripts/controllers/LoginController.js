@@ -1,4 +1,4 @@
-myApp.controller('LoginController', ['$scope', '$http', 'DataService', function($scope, $http, DataService) {
+myApp.controller('LoginController', ['$scope', 'DataService', function($scope, DataService) {
     $scope.user;
 
     $scope.getUser = function() {
@@ -8,6 +8,8 @@ myApp.controller('LoginController', ['$scope', '$http', 'DataService', function(
 
     $scope.submit = function(user) {
       DataService.loginUser(user);
+      $scope.user = DataService.user
+      console.log($scope.user);
     }
 
 

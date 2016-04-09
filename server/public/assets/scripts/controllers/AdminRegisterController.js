@@ -1,4 +1,4 @@
-myApp.controller('AdminRegisterController', ['$scope', '$http', 'DataService', function($scope, $http, DataService) {
+myApp.controller('AdminRegisterController', ['$scope', 'DataService', function($scope, DataService) {
     $scope.user;
 
     // This happens after page load, which means it has authenticated if it was ever going to

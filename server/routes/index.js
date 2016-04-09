@@ -7,20 +7,26 @@ var register = require('module');
 var path = require('path');
 
 // Handles login form POST from index.html
-console.log('in index.js');
 router.post('/register', register);
 router.post('/user', user);
 
 router.post('/', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     console.log(user);
+    var userObject = {
+      firstName: user.first_name,
+      lastName: user.last_name,
+      email: user.email,
+      admin: user.admin
+    };
     if (err) {
       return next(err);
     }
     if (user === false) {
-      res.status(401).send(message);
+      res.send(false);
     } else {
-      res.status(200).send(user);
+      console.log(userObject);
+      res.status(200).send(userObject);
     }
   })(req, res, next);
 });
