@@ -5,8 +5,10 @@ myApp.controller('UserRegistrationController', ['$scope', 'DataService', functio
 
 
     DataService.getCompanies();
-    $scope.companies = DataService.companies.response;
-    
+    $scope.companies = DataService.companies;
+    console.log($scope.companies);
+    console.log(DataService.companies.response);
+
     // $scope.companies = DataService.companies;
 
 

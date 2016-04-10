@@ -29,8 +29,6 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     };
 
     var postUser = function(user){
-      companies.push(user.company)
-      console.log(companies);
       $http.post('/register', user).then(function(response){
         console.log(response);
         $location.path('/home')
