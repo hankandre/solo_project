@@ -1,3 +1,10 @@
+@font-face {
+      font-family:"icomoon";
+      src:url("https://cdn.rawgit.com/angular/material/master/docs/app/fonts/icomoon.eot");
+      font-weight:normal;
+      font-style:normal;
+}
+
 #logo {
   position: relative;
   left: 25px;
@@ -24,4 +31,22 @@
 .login-form button {
   display: block;
   position: left 100%;
+}
+
+.user-home {
+  width: 600px;
+  margin: 0 auto;
+}
+
+#welcome {
+  text-align: center;
+}
+
+.commute-form md-content {
+  padding-bottom: 200px;
+}
+.commute-form .validation-messages {
+  font-size: 12px;
+  color: #dd2c00;
+  margin: 10px 0 0 25px;
 }

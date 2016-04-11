@@ -4,12 +4,6 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
 
     var companies = {};
 
-    var getUser = function(){
-        $http.get("/user").then(function(response){
-            data.response = response.data;
-        });
-    };
-
     var getCompanies = function() {
       $http.get('/companies').then(function(response) {
         companies.response = response.data;
@@ -18,12 +12,14 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     }
 
     var loginUser = function(user){
-      $http.post('/', user).then(function(response){
+      $http.post('/user', user).then(function(response){
         if (response.data === false) {
           $window.location.href = 'views/failure.html';
-        } else {
-          $location.path('/user');
+        } else if (response.data.admin) {
+          $location.path('/admin');
+        }else {
           userData.response = response.data;
+          $location.path('/user');
         }
       });
     };
@@ -35,12 +31,19 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
       });
     };
 
+    var postCommuteData = function(commute) {
+      console.log(commute);
+      $http.post('/commute', commute).then(function(response) {
+        console.log(response);
+      });
+    };
+
     return {
       user: userData,
       data: data,
       getCompanies: getCompanies,
-      getUser: getUser,
       postUser: postUser,
+      postCommuteData: postCommuteData,
       loginUser: loginUser,
       companies: companies,
     };

@@ -6,7 +6,6 @@ var db = require('../modules/db');
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
-  console.log(req.body);
   var saveUser = {
     email: req.body.email,
     password: req.body.password,
@@ -26,7 +25,6 @@ router.post('/', function(req, res, next) {
     admin: req.body.admin
   };
 
-  console.log('new user:', saveUser);
 
   pg.connect(db, function(err, client, done) {
     if (err) {
@@ -47,15 +45,12 @@ router.post('/', function(req, res, next) {
         saveUser.birthdate, saveUser.admin]);
 
         query.on('row', function(row) {
-          var user = {};
-          var user = row
-          console.log(row);
-          res.send(user)
+          var data = row;
         });
 
         query.on('end', function() {
-          done();
           res.send(data);
+          done();
         });
 
         query.on('error', function(error) {

@@ -16,6 +16,10 @@ myApp.config(["$routeProvider", function($routeProvider){
         templateUrl: "/views/routes/user.html",
         controller: "LoggedInController"
       }).
+      when("/admin", {
+        templateUrl: "/views/routes/admin.html",
+        controller: "LoggedInAdminController"
+      }).
       otherwise({
           redirectTo: '/login'
       });
