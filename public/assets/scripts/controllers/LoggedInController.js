@@ -3,16 +3,16 @@ myApp.controller('LoggedInController', ['$scope', 'DataService', function($scope
 
     $scope.transportationModes = ['Bussed', 'Walked', 'Ran', 'Biked', 'Other'];
 
-    $scope.user.date = new Date();
+    $scope.myDate = new Date();
     $scope.minDate = new Date(
-        $scope.user.date.getFullYear(),
-        $scope.user.date.getMonth() - 1,
-        $scope.user.date.getDate()
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth() - 1,
+        $scope.myDate.getDate()
     );
     $scope.maxDate = new Date(
-        $scope.user.date.getFullYear(),
-        $scope.user.date.getMonth(),
-        $scope.user.date.getDate()
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth(),
+        $scope.myDate.getDate()
     );
 
     $scope.submit = function(commute) {

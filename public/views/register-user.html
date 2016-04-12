@@ -22,7 +22,7 @@
   </head>
 
   <body ng-controller="UserRegistrationController">
-    <md-content layout-padding>
+    <md-content layout-padding class="md-accent">
       <header>
         <a href="/views/index.html"><img id="logo" src="/assets/images/logo19.png" alt="logo" /></a>
       </header>
@@ -46,6 +46,26 @@
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
+                <label>Age</label>
+                <input ng-model="user.age" type="number">
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Sex</label>
+                <md-select ng-model="user.sex">
+                  <md-option> Male </md-option>
+                  <md-option> Female </md-option>
+                  <md-option> Prefer Not to Say </md-option>
+                </md-select>
+              </md-input-container>
+
+            </md-input-container>
+              <md-datepicker ng-model="user.birthdate" md-placeholder="Enter date">
+            </md-datepicker>
+            </div>
+
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
                 <label>email</label>
                 <input ng-model="user.email">
               </md-input-container>
@@ -53,7 +73,7 @@
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company</label>
                 <md-select ng-model="user.company">
-                  <md-option ng-repeat="company in companies.response"> {{company}} </md-option>
+                  <md-option ng-repeat="company in companies.response" ng-value="{{company.id}}"> {{company.name}} </md-option>
                 </md-select>
               </md-input-container>
             </div>
@@ -79,13 +99,7 @@
               <md-input-container class="md-block" flex-gt-sm>
                 <label>State</label>
                 <md-select ng-model="user.state">
-                  <md-option>MN</md-option>
-                  <md-option>WA</md-option>
-                  <md-option>MO</md-option>
-                  <md-option>IA</md-option>
-                  <md-option>WI</md-option>
-                  <md-option>MI</md-option>
-                  <md-option>NE</md-option>
+                  <md-option ng-repeat="state in states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
                 </md-select>
               </md-input-container>
 

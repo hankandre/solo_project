@@ -4,24 +4,32 @@ var db = require('../modules/db');
 var pg = require('pg');
 
 router.get('/', function(req, res) {
-  console.log('in /companies');
   pg.connect(db, function (err, client, done) {
-      companies = [];
-      var query = client.query("SELECT JSON_AGG(DISTINCT company) from users");
+    if (err) {
+      done();
+      console.log('Error connecting to db ', err);
+      res.send(err)
+    } else {
+      var results = [];
+      var query = client.query("SELECT * FROM companies");
 
       query.on('row', function (row) {
-        companies = row.json_agg;
+        console.log('companies in "companies" table', row);
+        results.push(row);
         done();
-        res.status(200).send(companies)
       });
 
       query.on('end', function () {
-          client.end();
+        done();
+        res.send(results);
       });
 
-      if (err) {
-          console.log(err);
-      }
+      query.on('error', function(error) {
+        console.log('Error querying database ', error);
+        done();
+        res.send(error);
+      });
+    }
   });
 });
 

@@ -9,16 +9,16 @@ myApp.config(['$mdThemingProvider', function($mdThemingProvider){
 myApp.config(["$routeProvider", function($routeProvider){
   $routeProvider.
       when("/login", {
-          templateUrl: "/views/routes/login.html",
-          controller: "LoginController"
+          templateUrl: '/views/routes/login.html',
+          controller: 'LoginController'
       }).
       when("/user", {
-        templateUrl: "/views/routes/user.html",
-        controller: "LoggedInController"
+        templateUrl: '/views/routes/user.html',
+        controller: 'LoggedInController'
       }).
-      when("/admin", {
-        templateUrl: "/views/routes/admin.html",
-        controller: "LoggedInAdminController"
+      when('/admin', {
+        templateUrl: '/views/routes/admin.html',
+        controller: 'AdminController'
       }).
       otherwise({
           redirectTo: '/login'

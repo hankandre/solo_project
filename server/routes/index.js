@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var register = require('./register');
+var registerAdmin = require('./registerAdmin');
 var companies = require('./companies');
 var employees = require('./employees');
 var user = require('./user');
@@ -9,6 +10,7 @@ var commute = require('./commute');
 
 
 router.use('/register', register);
+router.use('/registeradmin', registerAdmin);
 router.use('/companies', companies);
 router.use('/employees', employees);
 router.use('/user', user);

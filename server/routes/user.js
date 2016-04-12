@@ -19,14 +19,14 @@ router.post('/', function(req, res) {
     } else {
       var user;
 
-      var query = client.query('SELECT first_name, last_name, email, admin ' +
-                              'FROM users WHERE email = $1 ' +
-                              'AND password = $2',
+      var query = client.query('SELECT  users.first_name, users.last_name, login.email, login.id, login.admin, companies.name FROM users JOIN login ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.email = $1 AND login.password = $2',
                               [queryUser.email, queryUser.password]);
 
       query.on('row', function(row) {
-        console.log(row);
         user = row;
+        user.company = user.name;
+        delete user.name;
+        console.log(user);
       });
 
       query.on('end', function() {

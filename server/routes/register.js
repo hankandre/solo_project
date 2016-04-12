@@ -24,41 +24,63 @@ router.post('/', function(req, res, next) {
     birthdate: req.body.birthdate,
     admin: req.body.admin
   };
-
+  console.log(req.body);
+  var results = [];
 
   pg.connect(db, function(err, client, done) {
+
     if (err) {
       done();
-      console.log('Error connecting to DB: ', err);
-      res.status(500).send(err);
+      console.log('Error connecting to DB ', err);
+      res.send(err)
     } else {
 
-      var data = {};
-      var query = client.query("INSERT INTO users (email, password, first_name, last_name, " +
-                  "company, company_size, benefit_type, address, address2," +
-                  "city, state, zip_code, sex, age, birthdate, admin)" +
-                  "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, " +
-                  "$13, $14, $15, $16) RETURNING first_name",
-        [saveUser.email, saveUser.password, saveUser.first_name, saveUser.last_name,
-        saveUser.company, saveUser.company_size, saveUser.benefit_type, saveUser.address,
-        saveUser.address2, saveUser.city, saveUser.state, saveUser.zip_code, saveUser.sex, saveUser.age,
-        saveUser.birthdate, saveUser.admin]);
+          var query = client.query('INSERT INTO login (email, password, admin)' +
+                                  'VALUES ($1, $2, $3) RETURNING id, email',
+                                  [saveUser.email, saveUser.password, saveUser.admin]);
 
-        query.on('row', function(row) {
-          var data = row;
-        });
+          query.on('row', function(row) {
+            results.push(row);
+            query = client.query('INSERT INTO users (first_name, last_name, company_id,' +
+                                  'address, address2, zip_code, city, state, age, sex, birthdate, login_id) ' +
+                                  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING first_name, ' +
+                                  'last_name;',
+                                  [saveUser.first_name, saveUser.last_name, saveUser.company,
+                                  saveUser.address, saveUser.address2, saveUser.zip_code,
+                                  saveUser.city, saveUser.state, saveUser.age, saveUser.sex, saveUser.birthdate,
+                                  results[0].id]);
 
-        query.on('end', function() {
-          res.send(data);
-          done();
-        });
+            query.on('row', function(row) {
+              results.push(row);
+              console.log('users row ', row);
+              console.log('user registration results ', results);
+            });
 
-        query.on('error', function(error) {
-        console.log('Error running query:', error);
-        done();
-        res.status(500).send(error);
-        });
-    }
+            query.on('end', function() {
+              res.send(results);
+              done();
+            });
+
+            query.on('error', function(error) {
+              console.log('Error running user registration query:', error);
+              done();
+              res.send(error);
+            });
+            console.log('login results: ', results);
+          });
+
+          query.on('end', function() {
+            done();
+          });
+
+          query.on('error', function(error) {
+            console.log('Error running login query:', error);
+            done();
+            res.send(error);
+          });
+
+
+      }
   });
 });
 

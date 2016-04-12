@@ -1,8 +1,8 @@
 myApp.factory("DataService", ["$http","$window", "$location", function($http, $window, $location){
-    var data = {};
     var userData = {};
 
     var companies = {};
+    var employees= [];
 
     var getCompanies = function() {
       $http.get('/companies').then(function(response) {
@@ -16,6 +16,7 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
         if (response.data === false) {
           $window.location.href = 'views/failure.html';
         } else if (response.data.admin) {
+          userData.response = response.data;
           $location.path('/admin');
         }else {
           userData.response = response.data;
@@ -27,7 +28,14 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     var postUser = function(user){
       $http.post('/register', user).then(function(response){
         console.log(response);
-        $location.path('/home')
+        // $window.location.href = 'views/index.html';
+      });
+    };
+
+    var postAdmin = function(admin){
+      $http.post('/registeradmin', admin).then(function(response){
+        console.log(response.data);
+        // $window.location.href = 'views/index.html';
       });
     };
 
@@ -38,11 +46,20 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
       });
     };
 
+    var getEmployees = function() {
+      var company = userData.response.company.split(' ').join('_').toLowerCase()
+      $http.get('/employees/' + company + '').then(function(response) {
+        
+        console.log(response.data);
+      })
+    }
+
     return {
       user: userData,
-      data: data,
       getCompanies: getCompanies,
+      getEmployees: getEmployees,
       postUser: postUser,
+      postAdmin: postAdmin,
       postCommuteData: postCommuteData,
       loginUser: loginUser,
       companies: companies,

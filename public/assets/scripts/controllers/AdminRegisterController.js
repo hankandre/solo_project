@@ -9,9 +9,10 @@ myApp.controller('AdminRegisterController', ['$scope', 'DataService', function($
       $scope.user = DataService.data;
     }
 
-    $scope.submit = function(user) {
-      user.admin = true;
-      DataService.postUser(user);
+    $scope.submit = function(admin) {
+      admin.admin = true;
+      DataService.postAdmin(admin);
+
     }
 
 
