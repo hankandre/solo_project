@@ -1,8 +1,7 @@
 myApp.factory("DataService", ["$http","$window", "$location", function($http, $window, $location){
     var userData = {};
-
     var companies = {};
-    var employees= [];
+    var employees = {};
 
     var getCompanies = function() {
       $http.get('/companies').then(function(response) {
@@ -47,17 +46,17 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     };
 
     var getEmployees = function() {
-      var company = userData.response.company.split(' ').join('_').toLowerCase()
+      var company = userData.response.company_name.split(' ').join('_').toLowerCase()
       $http.get('/employees/' + company + '').then(function(response) {
-        
-        console.log(response.data);
-      })
+        employees.response = response.data;
+      });
     }
 
     return {
       user: userData,
       getCompanies: getCompanies,
       getEmployees: getEmployees,
+      employees: employees,
       postUser: postUser,
       postAdmin: postAdmin,
       postCommuteData: postCommuteData,

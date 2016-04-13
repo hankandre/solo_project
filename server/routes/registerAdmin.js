@@ -89,8 +89,9 @@ router.post('/', function(req, res, next) {
           done();
           res.send(error);
         });
+
         var company = saveUser.company.split(' ').join('_').toLowerCase();
-        query = client.query('CREATE TABLE IF NOT EXISTS ' + company + ' ("id" serial, "login_id" integer, "companies_id" integer, "date" DATE, "mode_of_transportation" VARCHAR(160), "miles_commuted" NUMERIC, PRIMARY KEY ("id"), CONSTRAINT "login_id" FOREIGN KEY ("login_id") REFERENCES "public"."login"("id"), CONSTRAINT "companies_id" FOREIGN KEY ("companies_id") REFERENCES "public"."companies"("id"));');
+        query = client.query('CREATE TABLE IF NOT EXISTS ' + company  + ' ("id" serial, "login_id" integer, "users_id" integer, "companies_id" integer, "mode_of_transportation" varchar(160), "miles_commuted" numeric, "date" date, PRIMARY KEY ("id"), CONSTRAINT "login_id" FOREIGN KEY ("login_id") REFERENCES "public"."login"("id"), CONSTRAINT "users_id" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id"), CONSTRAINT "companies_id" FOREIGN KEY ("companies_id") REFERENCES "public"."companies"("id"));');
 
         query.on('end', function() {
           done();

@@ -2,12 +2,14 @@ myApp.controller('AdminController', ['$scope', 'DataService', function($scope, D
   DataService.getEmployees()
 
   $scope.user = DataService.user.response;
+  $scope.employees = DataService.employees
 
-    $scope.submit = function(commute) {
-      commute.firstName = DataService.user.response.first_name;
-      commute.lastName = DataService.user.response.last_name;
-      commute.email = DataService.user.response.email;
-      DataService.postCommuteData(commute);
-    };
+  $scope.selected = [];
+
+  $scope.query = {
+    order: 'name',
+    limit: 25,
+    page: 1
+  }
 
 }]);

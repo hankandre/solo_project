@@ -13,18 +13,17 @@ router.get('/:id', function(req, res) {
     } else {
       var employees = [];
       var company = req.params.id;
-      var query = client.query('SELECT login.email, users.first_name, users.last_name, ' + company +'.date, ' + company +'.mode_of_transportation, ' + company + '.miles FROM ' + company +' JOIN users ON (' + company + '.login_id = users.login_id) JOIN login ON (users.login_id = login.id)');
+      var query = client.query('SELECT * FROM ' + company +' JOIN users ON (' + company + '.users_id = users.id) JOIN login ON (' + company + '.login_id = login.id)');
 
       query.on('row', function (row) {
-        console.log(row);
-        employees = row;
-        console.log(employees);
+        employees.push(row);
         done();
-        res.send(employees)
       });
 
       query.on('end', function () {
         done();
+        console.log(employees);
+        res.send(employees);
       });
 
       query.on('error', function(error) {

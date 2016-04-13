@@ -6,6 +6,16 @@ var db = require('../modules/db');
 
 // Handles POST request with new user data
 router.post('/', function(req, res) {
+  console.log(req.body);
+  var commute = {
+    user_id : req.body.user_id,
+    login_id: req.body.login_id,
+    company_id: req.body.companies_id,
+    company_name: req.body.company_name,
+    date: req.body.date,
+    modeOfTransportation: req.body.mode,
+    miles: req.body.miles
+  };
 
   pg.connect(db, function(err, client, done) {
     if (err) {
@@ -15,13 +25,13 @@ router.post('/', function(req, res) {
     } else {
 
       var results = [];
-      console.log(req.body.date);
+      var company = commute.company_name.split(' ').join('_').toLowerCase();
 
-      query = client.query('INSERT INTO ' + req.body.company.split(' ').join('_').toLowerCase() + ' (login_id, mode_of_transportation, miles, date) VALUES ($1, $2, $3, $4) RETURNING login_id, date, miles;',
-                          [req.body.id, req.body.mode, req.body.miles, req.body.date]);
+      query = client.query('INSERT INTO ' + company + ' (login_id, users_id, companies_id, mode_of_transportation, miles_commuted, date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;',
+                          [commute.login_id, commute.user_id, commute.company_id, commute.modeOfTransportation, commute.miles, commute.date]);
 
       query.on('row', function(row) {
-        console.log('row from ' + req.body.company.split(' ').join('_').toLowerCase() + ' commute table ', row);
+        console.log('row from ' + company + ' commute table ', row);
         results.push(row);
         done();
       });

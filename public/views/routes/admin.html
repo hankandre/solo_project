@@ -1,11 +1,11 @@
 <header>
-  <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+  <a href="#admin"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
   <ul style="text-align: right">
   <md-icon></md-icon>
   </ul>
 </header>
 
-<div class="user-home" ng-cloak>
+<div class="admin-home" ng-cloak>
 
   <section layout-align="center center" ng-controller="AdminController" class="welcome-banner">
     <div layout-get-md="row">
@@ -14,7 +14,35 @@
   </section>
 
   <section class="employees">
+    <md-toolbar class="md-table-toolbar md-default">
+      <div class="md-toolbar-tools">
+        <span>Employees</span>
+      </div>
+    </md-toolbar>
 
-    </form>
+    <md-table-container>
+      <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Email</th>
+            <th md-column md-order-by="employee.first_name"><span>First Name</span></th>
+            <th md-column md-order-by="employee.last_name"><span>Last Name</span></th>
+            <th md-column md-order-by="employee.mode_of_transportation">Mode of Transportation</th>
+            <th md-column md-order-by="employee.miles_commuted">Miles Commuted</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row md-select="employee" md-select-id="employee" md-auto-select ng-repeat="employee in employees.response">
+            <td md-cell>{{employee.email}}</td>
+            <td md-cell>{{employee.first_name}}</td>
+            <td md-cell>{{employee.last_name}}</td>
+            <td md-cell>{{employee.mode_of_transportation}}</td>
+            <td md-cell>{{employee.miles_commuted}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{employees.response.length}}" md-page-select></md-table-pagination>
   </section>
 </div>

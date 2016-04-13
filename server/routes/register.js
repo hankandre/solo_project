@@ -41,6 +41,22 @@ router.post('/', function(req, res, next) {
 
           query.on('row', function(row) {
             results.push(row);
+            query = client.query('SELECT name FROM companies WHERE id = $1;',[saveUser.company]);
+
+            query.on('row', function(row) {
+              result.push(row);
+              console.log('Getting companies_name ', results);
+            });
+
+            query.on('end', function() {
+              done();
+            });
+
+            query.on('error', function(error) {
+              console.log('Error running admin registration query:', error);
+              done();
+              res.send(error);
+            });
             query = client.query('INSERT INTO users (first_name, last_name, company_id,' +
                                   'address, address2, zip_code, city, state, age, sex, birthdate, login_id) ' +
                                   'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING first_name, ' +
@@ -52,7 +68,9 @@ router.post('/', function(req, res, next) {
 
             query.on('row', function(row) {
               results.push(row);
-              console.log('users row ', row);
+
+              // query = client.query('INSERT INTO')
+              // console.log('users row ', row);
               console.log('user registration results ', results);
             });
 
