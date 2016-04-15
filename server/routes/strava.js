@@ -1,17 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
 
-app.get('/',
-  passport.authenticate('strava'));
-
-app.get('/callback',
+router.get('/',
   passport.authenticate('strava'),
   function(req, res) {
     console.log(req.body);
-    res.redirect('/');
-  });
+  }
+);
+
+router.get('/callback',
+  passport.authenticate('strava'),
+  { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('../../views/home.html');
+});
 
 
 module.exports = router;

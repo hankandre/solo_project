@@ -71,11 +71,14 @@ passport.use('local', new localStrategy ({
 
 
 passport.use('strava', new stravaStrategy({
-    clientID: 10821,
-    clientSecret: '9d4119de5304645a41839fd4e6e40f5dc2893d2f',
-    callbackURL: "http://127.0.0.1:3000/auth/strava/callback"
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    callbackURL: "http://127.0.0.1:5000/auth/strava/callback"
   },
   function(accessToken, refreshToken, profile, done) {
+    console.log('accessToken ', accessToken);
+    console.log('refreshToken ', refreshToken);
+    console.log('profile ', profile);
     // asynchronous verification, for effect...
     process.nextTick(function () {
       console.log('Strava profile ', profile);

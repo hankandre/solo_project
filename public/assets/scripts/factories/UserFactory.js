@@ -3,6 +3,12 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
   var employees = {};
   var loaded = false;
 
+  var getStrava = function() {
+    $http.get('/auth/strava').then(function(response) {
+      console.log(response);
+    })
+  }
+
   var getUser = function(info) {
     $http.get('/user').then(function(response) {
       user.response = response.data;
@@ -32,6 +38,7 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
 
     return {
       user: user,
+      getStrava: getStrava,
       getUser: getUser,
       employees: employees,
       loaded : loaded,

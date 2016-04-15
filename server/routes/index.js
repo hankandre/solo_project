@@ -8,6 +8,7 @@ var employees = require('./employees');
 var login = require('./login');
 var commute = require('./commute');
 var user = require('./user');
+var strava = require('./strava');
 
 
 router.use('/register', register);
@@ -17,6 +18,7 @@ router.use('/employees', employees);
 router.use('/login', login);
 router.use('/commute', commute);
 router.use('/user', user);
+router.use('/auth/strava', strava);
 
 
 router.get('/*', function(req, res) {

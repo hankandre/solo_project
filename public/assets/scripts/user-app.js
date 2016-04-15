@@ -19,7 +19,7 @@ userApp.config(["$routeProvider", function($routeProvider){
       }).
       when("/editProfile", {
           templateUrl: '/views/routes/user-edit-profile.html',
-          controller: 'EditController'
+          controller: 'EditInfoController'
       }).
       when("/admin", {
           templateUrl: '/views/routes/admin.html',

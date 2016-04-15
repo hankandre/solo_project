@@ -1,11 +1,6 @@
-<md-content layout-padding>
-  <div ng-controller="UserController">
-    <header layout="row" layout-align="space-between center">
-      <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-      <i class="material-icons md-dark md-48" layout-align="right">account_circle</i>
-    </header>
-
-    <div class="user-home" ng-cloak>
+<md-content layout-padding ng-controller="UserController" ng-cloak>
+  <ng-include src="'/views/partials/header.html'"></ng-include>
+  <div class="user-home">
 
       <section layout-align="center center" class="welcome-banner">
         <div layout-get-md="row">
@@ -39,10 +34,11 @@
               <label>Miles</label>
               <input ng-model="user.miles" type="number" step=".01">
             </md-input-container>
+          </div>
 
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-              <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
-            </section>
+          <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
+          </section>
         </form>
       </section>
     </div>

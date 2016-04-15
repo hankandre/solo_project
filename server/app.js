@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var util = require('util');
 var db = require('./modules/db');
 
 var passport = require('./modules/passport');

@@ -1,3 +1,23 @@
-<header>
-  <a href="#login"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+<header layout="row" layout-align="space-between center" ng-controller="UserController">
+  <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+  <md-menu>
+      <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+        <i class="material-icons md-light md-inactive">account_circle</i>
+      </md-button>
+      <md-menu-content width="4">
+
+        <md-menu-item>
+          <md-button href="#user">
+            Home
+          </md-button>
+        </md-menu-item>
+
+        <md-menu-item>
+          <md-button href="#editProfile">
+            Edit Profile
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  <!-- <a href="#"><i class="material-icons md-dark md-48" layout-align="right">account_circle</i></a> -->
 </header>
