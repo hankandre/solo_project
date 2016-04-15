@@ -1,45 +1,51 @@
-<div ng-controller="UserController">
-<header>
-  <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-  <ul style="text-align: right">
-  <md-icon></md-icon>
-  </ul>
-</header>
+<md-content layout-padding>
+  <div ng-controller="UserController">
+  <header layout-get-md="row">
+    <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+    <h1 id="companyName" class="md-headline">{{user.company_name}}</h1>
+  </header>
 
   <section layout-align="center center" class="welcome-banner">
     <div layout-get-md="row">
       <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
     </div>
   </section>
+  <section class="employee-table">
+    <md-toolbar class="md-table-toolbar md-default">
+      <div class="md-toolbar-tools">
+        <span>Employees</span>
+      </div>
+      <div layout-align="center right">
+        <span layout-align="center right">Miles commuted: {{totalMiles()}}</span>
+      </div>
+    </md-toolbar>
 
-<md-toolbar class="md-table-toolbar md-default">
-  <div class="md-toolbar-tools">
-    <span>Employees</span>
-  </div>
-</md-toolbar>
+    <!-- exact table from live demo -->
+    <md-table-container>
+      <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+        <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+          <tr md-row>
+            <th md-column><span>email</span></th>
+            <th md-column><span>First Name</span></th>
+            <th md-column>Last Name</th>
+            <th md-column>Mode of Transportation</th>
+            <th md-column>Miles Commuted</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row md-select="employee" md-select-id="id" md-auto-select ng-repeat="employee in employees.response">
+            <td md-cell>{{employee.email}}</td>
+            <td md-cell>{{employee.first_name}}</td>
+            <td md-cell>{{employee.last_name}}</td>
+            <td md-cell>{{employee.mode_of_transportation}}</td>
+            <td md-cell>{{employee.miles_commuted}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
 
-<!-- exact table from live demo -->
-<md-table-container>
-  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
-    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
-      <tr md-row>
-        <th md-column><span>email</span></th>
-        <th md-column><span>First Name</span></th>
-        <th md-column>Last Name</th>
-        <th md-column>Mode of Transportation</th>
-        <th md-column>Miles Commuted</th>
-      </tr>
-    </thead>
-    <tbody md-body>
-      <tr md-row md-select="employee" md-select-id="id" md-auto-select ng-repeat="employee in employees.response">
-        <td md-cell>{{employee.email}}</td>
-        <td md-cell>{{employee.first_name}}</td>
-        <td md-cell>{{employee.last_name}}</td>
-        <td md-cell>{{employee.mode_of_transportation}}</td>
-        <td md-cell>{{employee.miles_commuted}}</td>
-      </tr>
-    </tbody>
-  </table>
-</md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{employees.response.length}}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>
 
-<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{employees.response.length}}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>
+  </section>
+
+</md-content>

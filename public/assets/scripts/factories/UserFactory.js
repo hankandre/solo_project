@@ -5,7 +5,6 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
 
   var getUser = function(info) {
     $http.get('/user').then(function(response) {
-      console.log(response.data);
       user.response = response.data;
       if (response.data.admin) {
         $location.path('/admin');
@@ -27,7 +26,6 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
       console.log('getEmployees ', user);
       var company = user.response.company_name.split(' ').join('_').toLowerCase()
       $http.get('/employees/' + company + '').then(function(response) {
-        console.log('getEmployees response ', response);
         employees.response = response.data;
       });
     }

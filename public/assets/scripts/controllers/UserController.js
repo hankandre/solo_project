@@ -2,9 +2,22 @@ userApp.controller('UserController', ['$scope', 'UserService', function($scope, 
 
     UserService.getUser();
 
+    $scope.transportationModes = ['Bussed', 'Walked', 'Ran', 'Biked', 'Rollerbladed'];
+
 
     $scope.user = UserService.user.response;
     $scope.employees = UserService.employees;
+
+    $scope.totalMiles = function() {
+      var total = 0;
+      console.log(UserService.employees.response);
+      for (var i = 0; i < UserService.employees.response.length; i++) {
+        var employee = UserService.employees.response[i];
+        var milesNumeric = parseFloat(employee.miles_commuted);
+        total += milesNumeric;
+      }
+      return total;
+    }
 
     $scope.selected = [];
 

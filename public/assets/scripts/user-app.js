@@ -6,11 +6,20 @@ userApp.config(['$mdThemingProvider', function($mdThemingProvider){
     .accentPalette('cyan');
 }]);
 
+// userApp.config(['$mdIconProvider', function($mdIconProvider) {
+//   $mdIconProvider
+//     .defaultIconSet('/assets/images/icons/user-icons.svg', 24);
+// }]);
+
 userApp.config(["$routeProvider", function($routeProvider){
   $routeProvider.
       when("/user", {
           templateUrl: '/views/routes/user.html',
           controller: 'UserController'
+      }).
+      when("/editProfile", {
+          templateUrl: '/views/routes/user-edit-profile.html',
+          controller: 'EditController'
       }).
       when("/admin", {
           templateUrl: '/views/routes/admin.html',
