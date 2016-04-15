@@ -1,48 +1,50 @@
-<header>
-  <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-  <ul style="text-align: right">
-  <md-icon></md-icon>
-  </ul>
-</header>
+<div ng-controller="UserController">
+  <header>
+    <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+    <ul style="text-align: right">
+    <md-icon></md-icon>
+    </ul>
+  </header>
 
-<div class="user-home" ng-cloak>
+  <div class="user-home" ng-cloak>
 
-  <section layout-align="center center" ng-controller="LoggedInController" class="welcome-banner">
-    <div layout-get-md="row">
-      <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
-    </div>
-  </section>
+    <section layout-align="center center" class="welcome-banner">
+      <div layout-get-md="row">
+        <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
+      </div>
+    </section>
 
-  <section class="commute-form">
-    <form name="commuteForm">
-      <div layout-gt-sm="row">
+    <section class="commute-form">
+      <form name="commuteForm">
+        <div layout-gt-sm="row">
 
-      </div layout-gt-sm="row">
-        <md-datepicker name="dateField" ng-model="user.date" md-placeholder="Enter date"
-            required md-min-date="minDate" md-max-date="maxDate" class="md-accent"></md-datepicker>
-        <div class="validation-messages" ng-messages="commuteForm.dateField.$error">
-          <div ng-message="valid">The entered value is not a date!</div>
-          <div ng-message="required">This date is required!</div>
-          <div ng-message="mindate">Date is too early!</div>
-          <div ng-message="maxdate">Date is too late!</div>
-        </div>
+        </div layout-gt-sm="row">
+          <md-datepicker name="dateField" ng-model="user.date" md-placeholder="Enter date"
+              required md-min-date="minDate" md-max-date="maxDate" class="md-accent"></md-datepicker>
+          <div class="validation-messages" ng-messages="commuteForm.dateField.$error">
+            <div ng-message="valid">The entered value is not a date!</div>
+            <div ng-message="required">This date is required!</div>
+            <div ng-message="mindate">Date is too early!</div>
+            <div ng-message="maxdate">Date is too late!</div>
+          </div>
 
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Mode of Transportation</label>
-          <md-select ng-model="user.mode">
-            <md-option ng-repeat="mode in transportationModes"> {{ mode }} </md-option>
-          </md-select>
-        </md-input-container>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Mode of Transportation</label>
+            <md-select ng-model="user.mode">
+              <md-option ng-repeat="mode in transportationModes"> {{ mode }} </md-option>
+            </md-select>
+          </md-input-container>
 
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Miles</label>
-          <input ng-model="user.miles" type="number" step=".01">
-        </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Miles</label>
+            <input ng-model="user.miles" type="number" step=".01">
+          </md-input-container>
 
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-          <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
-        </section>
-    </form>
-  </section>
+          <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
+          </section>
+      </form>
+    </section>
+  </div>
 </div>

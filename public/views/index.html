@@ -4,7 +4,6 @@
     <title>Commutr</title>
     <!-- STYLES -->
     <link rel="stylesheet" href="/assets/vendors/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="/assets/vendors/angular-material-data-table/dist/md-data-table.min.css">
     <link rel="stylesheet" href="/assets/styles/styles.css">
 
     <!-- SCRIPTS -->
@@ -13,15 +12,10 @@
     <script type="text/javascript" src="/assets/vendors/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
-    <script type="text/javascript" src="/assets/vendors/angular-route/angular-route.min.js"></script>
-    <script type="text/javascript" src="/assets/vendors/angular-material-data-table/dist/md-data-table.min.js"></script>
     <script type="text/javascript" src="/assets/scripts/app.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/LoginController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/LoggedInController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/AdminRegisterController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
+    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/UserController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script> -->
   </head>
 
 
@@ -29,10 +23,47 @@
 
 
     <md-content layout-padding>
+      <header>
+        <a href="#login"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+      </header>
 
-      <main ng-view>
+      <div class="login-form">
+          <!-- Set form action and method -->
 
-      </main>
+        <form name="userLogin" action="/login" method="post">
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Email</label>
+              <input name="email" ng-model="user.email" type="text" required>
+            </md-input-container>
+          </div>
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Password</label>
+              <input name="password" ng-model="user.password" type="password" required>
+            </md-input-container>
+          </div>
+
+          <section layout="row" layout-align="right center">
+            <div flex>
+              <ul class="button-nav">
+                <li><a href="/views/register-user.html">Register User</a></li>
+                <li><a href="/views/register-admin.html">Register Company</a></li>
+              </ul>
+            </div>
+          </section>
+
+          <section layout="column" layout-align="center center" layout-wrap>
+            <div flex>
+              <md-button type="submit" class="md-raised md-primary">LOG IN</md-button>
+            </div>
+
+          </section>
+
+
+        </form>
+      </div>
 
       <ng-include src="'/views/partials/footer.html'"></ng-include>
     </md-content>

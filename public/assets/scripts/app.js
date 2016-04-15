@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'md.data.table']);
+var myApp = angular.module('myApp', ['ngMaterial', 'ngMessages']);
 
 myApp.config(['$mdThemingProvider', function($mdThemingProvider){
   $mdThemingProvider.theme('default')
@@ -6,21 +6,15 @@ myApp.config(['$mdThemingProvider', function($mdThemingProvider){
     .accentPalette('cyan');
 }]);
 
-myApp.config(["$routeProvider", function($routeProvider){
-  $routeProvider.
-      when("/login", {
-          templateUrl: '/views/routes/login.html',
-          controller: 'LoginController'
-      }).
-      when("/user", {
-        templateUrl: '/views/routes/user.html',
-        controller: 'LoggedInController'
-      }).
-      when('/admin', {
-        templateUrl: '/views/routes/admin.html',
-        controller: 'AdminController'
-      }).
-      otherwise({
-          redirectTo: '/login'
-      });
+myApp.controller('UserRegistrationController', ['$scope', '$http', function($scope, $http) {
+  $http.get('/companies').then(function(response) {
+    $scope.companies = response.data;
+    console.log($scope.companies);
+  });
+
+  $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+ 'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+ 'WY').split(' ').map(function(state) {
+     return {abbrev: state};
+   });
 }]);

@@ -5,16 +5,18 @@ var register = require('./register');
 var registerAdmin = require('./registerAdmin');
 var companies = require('./companies');
 var employees = require('./employees');
-var user = require('./user');
+var login = require('./login');
 var commute = require('./commute');
+var user = require('./user');
 
 
 router.use('/register', register);
 router.use('/registeradmin', registerAdmin);
 router.use('/companies', companies);
 router.use('/employees', employees);
-router.use('/user', user);
+router.use('/login', login);
 router.use('/commute', commute);
+router.use('/user', user);
 
 
 router.get('/*', function(req, res) {

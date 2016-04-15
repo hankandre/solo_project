@@ -3,16 +3,21 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var pg = require('pg');
 var db = require('../modules/db');
+var encryptLib = require('../modules/encryption');
+
+
+router.get('/', function(req, res, next) {
+    res.sendFile(path.resolve(__dirname, '../../public/views/register.html'));
+});
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
   var saveUser = {
     email: req.body.email,
-    password: req.body.password,
+    password: encryptLib.encryptPassword(req.body.password),
     first_name: req.body.firstname,
     last_name: req.body.lastname,
     company: req.body.company,
-    company_size: req.body.companysize,
     benefit_type: req.body.benefit,
     address: req.body.address,
     address2: req.body.address2,
@@ -22,7 +27,7 @@ router.post('/', function(req, res, next) {
     sex: req.body.sex,
     age: req.body.age,
     birthdate: req.body.birthdate,
-    admin: req.body.admin
+    admin: false
   };
   console.log(req.body);
   var results = [];
@@ -30,7 +35,7 @@ router.post('/', function(req, res, next) {
   pg.connect(db, function(err, client, done) {
 
     if (err) {
-      done();
+      next(err);
       console.log('Error connecting to DB ', err);
       res.send(err)
     } else {
@@ -42,7 +47,7 @@ router.post('/', function(req, res, next) {
           query.on('row', function(row) {
             results.push(row);
             query = client.query('SELECT name FROM companies WHERE id = $1;',[saveUser.company]);
-
+            console.log('results from "companies" query ', results);
             query.on('row', function(row) {
               result.push(row);
               console.log('Getting companies_name ', results);

@@ -1,8 +1,10 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-// var createdb = require('./routes/createdb');
 var db = require('./modules/db');
+
+var passport = require('./modules/passport');
+var session = require('express-session');
 
 // ROUTES
 var index = require('./routes/index');
@@ -10,6 +12,17 @@ var index = require('./routes/index');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+  secret: 'secret',
+  key: 'user',
+  resave: 'true',
+  saveUninitialized: false,
+  cookie: {maxage: 60000, secure: false}
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', index);
 

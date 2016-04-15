@@ -1,7 +1,8 @@
 myApp.factory("DataService", ["$http","$window", "$location", function($http, $window, $location){
-    var userData = {};
-    var companies = {};
-    var employees = {};
+  var user = {};
+  var userData = {};
+  var companies = {};
+  var employees = {};
 
     var getCompanies = function() {
       $http.get('/companies').then(function(response) {
@@ -10,33 +11,26 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
       });
     }
 
-    var loginUser = function(user){
-      $http.post('/user', user).then(function(response){
-        if (response.data === false) {
-          $window.location.href = 'views/failure.html';
-        } else if (response.data.admin) {
-          userData.response = response.data;
-          $location.path('/admin');
-        }else {
-          userData.response = response.data;
-          $location.path('/user');
-        }
-      });
-    };
-
-    var postUser = function(user){
-      $http.post('/register', user).then(function(response){
-        console.log(response);
-        // $window.location.href = 'views/index.html';
-      });
-    };
-
-    var postAdmin = function(admin){
-      $http.post('/registeradmin', admin).then(function(response){
+    var getUser = function(user) {
+      $http.get('/user').then(function(response) {
+        user.data = response.data;
         console.log(response.data);
-        // $window.location.href = 'views/index.html';
       });
-    };
+    }
+
+    // var postUser = function(user){
+    //   $http.post('/register', user).then(function(response){
+    //     console.log(response);
+    //     // $window.location.href = 'views/index.html';
+    //   });
+    // };
+    //
+    // var postAdmin = function(admin){
+    //   $http.post('/registeradmin', admin).then(function(response){
+    //     console.log(response.data);
+    //     // $window.location.href = 'views/index.html';
+    //   });
+    // };
 
     var postCommuteData = function(commute) {
       console.log(commute);
@@ -54,13 +48,14 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
 
     return {
       user: userData,
+      getUser: getUser,
       getCompanies: getCompanies,
       getEmployees: getEmployees,
       employees: employees,
       postUser: postUser,
       postAdmin: postAdmin,
       postCommuteData: postCommuteData,
-      loginUser: loginUser,
+      // loginUser: loginUser,
       companies: companies,
     };
 }]);

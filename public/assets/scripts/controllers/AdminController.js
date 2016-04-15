@@ -1,8 +1,12 @@
-myApp.controller('AdminController', ['$scope', 'DataService', function($scope, DataService) {
-  DataService.getEmployees()
+userApp.controller('AdminController', ['$scope', 'UserService', function($scope, UserService) {
+  $location.path('/admin');
 
-  $scope.user = DataService.user.response;
-  $scope.employees = DataService.employees
+
+  UserService.getUser();
+  UserService.getEmployees();
+
+  $scope.user = UserService.user.response;
+  $scope.employees = UserService.employees
 
   $scope.selected = [];
 

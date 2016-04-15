@@ -13,9 +13,12 @@ router.get('/:id', function(req, res) {
     } else {
       var employees = [];
       var company = req.params.id;
+      console.log(company);
+
       var query = client.query('SELECT * FROM ' + company +' JOIN users ON (' + company + '.users_id = users.id) JOIN login ON (' + company + '.login_id = login.id)');
 
       query.on('row', function (row) {
+        console.log('employees ', row);
         employees.push(row);
         done();
       });

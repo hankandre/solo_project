@@ -12,15 +12,14 @@
     <script type="text/javascript" src="/assets/vendors/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
-    <script type="text/javascript" src="/assets/vendors/angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="/assets/scripts/app.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/LoginController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/AdminRegisterController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
+    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/controllers/UserController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script> -->
+
   </head>
 
-  <body ng-controller="AdminRegisterController">
+  <body>
     <md-content layout-padding>
 
       <header>
@@ -31,48 +30,49 @@
           <div layout-align="center center" layout="column">
               <h3 class="md-title">Admin Registration</h3>
           </div>
-          <form name="userRegistration">
+          <form name="userRegistration" action="/registeradmin" method="post">
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>First Name</label>
-                <input ng-model="user.firstname">
+                <input name="firstname">
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Last Name</label>
-                <input ng-model="user.lastname">
+                <input name="lastname">
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>email</label>
-                <input ng-model="user.email">
+                <input name="email">
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company</label>
-                <input ng-model="user.company">
+                <input name="compay_name">
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company Size</label>
-                <md-select ng-model="user.companysize">
+                <md-select name="companysize" ng-model="user.companysize">
                   <md-option>1-5</md-option>
                   <md-option>5-15</md-option>
                   <md-option>15-30</md-option>
                   <md-option>30-50</md-option>
                   <md-option>50-100</md-option>
                   <md-option>100-500</md-option>
+                  <md-option>500-1000</md-option>
                   <md-option>1000+</md-option>
                 </md-select>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Benefit Type</label>
-                <md-select ng-model="user.benefit">
+                <md-select name="benefit_type" ng-model="user.benefit">
                   <md-option>Points</md-option>
                   <md-option>Reimbursement</md-option>
                   <md-option>Insurance Deduction</md-option>
@@ -83,44 +83,38 @@
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Address</label>
-                <input ng-model="user.address">
+                <input name="address">
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Address 2</label>
-                <input ng-model="user.address2">
+                <input name="address2">
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>City</label>
-                <input ng-model="user.city">
+                <input name="city">
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>State</label>
-                <md-select ng-model="user.state">
-                  <md-option>MN</md-option>
-                  <md-option>WA</md-option>
-                  <md-option>MO</md-option>
-                  <md-option>IA</md-option>
-                  <md-option>WI</md-option>
-                  <md-option>MI</md-option>
-                  <md-option>NE</md-option>
+                <md-select name="state" ng-model="user.state">
+                  <md-option ng-repeat="state in states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
                 </md-select>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Zip Code</label>
-                <input ng-model="user.zip">
+                <input name="zip">
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Password</label>
-                <input ng-model="user.password" type="password">
+                <input name="password" type="password">
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
@@ -131,7 +125,7 @@
 
 
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-              <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
+              <md-button type="submit" class="md-raised md-primary">SUBMIT</md-button>
             </section>
           </form>
         </div>

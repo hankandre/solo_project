@@ -3,11 +3,13 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var pg = require('pg');
 var db = require('../modules/db');
+var encryptLib = require('../modules/encryption');
+
 
 router.post('/', function(req, res, next) {
   var saveUser = {
     email: req.body.email,
-    password: req.body.password,
+    password: encryptLib.encryptPassword(req.body.password),
     first_name: req.body.firstname,
     last_name: req.body.lastname,
     company: req.body.company,
@@ -21,7 +23,7 @@ router.post('/', function(req, res, next) {
     sex: req.body.sex,
     age: req.body.age,
     birthdate: req.body.birthdate,
-    admin: req.body.admin
+    admin: true
   };
 
   var results = [];
@@ -50,7 +52,7 @@ router.post('/', function(req, res, next) {
         res.send(error);
       });
 
-      query = client.query('CREATE TABLE IF NOT EXISTS companies(id SERIAL PRIMARY KEY, name varchar(160), benefit_type varchar(160));');
+      query = client.query('CREATE TABLE IF NOT EXISTS companies(id SERIAL PRIMARY KEY, company_name varchar(160), benefit_type varchar(160));');
 
       query.on('end', function() {
         done();
@@ -111,7 +113,7 @@ router.post('/', function(req, res, next) {
         query.on('row', function(row) {
           results.push(row);
           console.log('results prior to insert into "companies" table ', results);
-          query = client.query('INSERT INTO companies (name, benefit_type)' +
+          query = client.query('INSERT INTO companies (company_name, benefit_type)' +
                                 'VALUES ($1, $2) RETURNING (id)',
                                 [saveUser.company, saveUser.benefit_type]);
 
