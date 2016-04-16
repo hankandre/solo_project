@@ -23,7 +23,8 @@ passport.deserializeUser(function(id, done) {
     } else {
       var user = {};
       // JOIN users ON (login.id = users.login_id) JOIN companies ON (users.company_id = companies.id) WHERE
-      var query = client.query('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1', [id]);
+      var query = client.query('SELECT login.id AS login_id, companies.id AS company_id, users.id AS users_id, *' +
+                              ' FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1', [id]);
 
       query.on('row', function(row) {
         console.log('user object ', row);

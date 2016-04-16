@@ -3,7 +3,7 @@
   <h1 class="md-display-2">{{user.company_name}}</h1>
   <md-menu>
       <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-        <img ng-src="{{strava.stravaInfo.profile_medium}}" alt="user image icon" />
+        <img ng-src="{{strava.stravaInfo.profile_medium || '/assets/images/icons/ic_directions_bike_black_24_2x.png'}}" alt="user image icon" />
       </md-button>
       <md-menu-content width="4">
         <md-menu-item>

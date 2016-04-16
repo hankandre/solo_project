@@ -8,9 +8,9 @@ var db = require('../modules/db');
 router.post('/', function(req, res) {
   console.log(req.body);
   var commute = {
-    user_id : req.body.login_id,
+    user_id : req.body.users_id,
     login_id: req.body.login_id,
-    company_id: req.body.id,
+    company_id: req.body.company_id,
     company_name: req.body.company_name,
     date: req.body.date,
     modeOfTransportation: req.body.mode,

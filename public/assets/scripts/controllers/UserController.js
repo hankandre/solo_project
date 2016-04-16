@@ -1,4 +1,4 @@
-userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', function($scope, UserService, $mdDialog) {
+userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', '$filter', function($scope, UserService, $mdDialog, $filter) {
 
     UserService.getUser();
 
@@ -11,39 +11,24 @@ userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', func
       originatorEv = ev;
       $mdOpenMenu(ev);
     };
-    // this.notificationsEnabled = true;
-    // this.toggleNotifications = function() {
-    //   this.notificationsEnabled = !this.notificationsEnabled;
-    // };
-    // this.redial = function() {
-    //   $mdDialog.show(
-    //     $mdDialog.alert()
-    //       .targetEvent(originatorEv)
-    //       .clickOutsideToClose(true)
-    //       .parent('body')
-    //       .title('Suddenly, a redial')
-    //       .textContent('You just called a friend; who told you the most amazing story. Have a cookie!')
-    //       .ok('That was easy')
-    //   );
-    //   originatorEv = null;
-    // };
-    // this.checkVoicemail = function() {
-    //   // This never happens.
-    // };
-  // });
 
+    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+    $scope.data = [300, 500, 100];
 
     $scope.user = UserService.user.response;
     $scope.employees = UserService.employees;
     $scope.strava = UserService.user;
-    console.log($scope.stravaInfo);
 
+    if (UserService.user.stravaInfo == null) {
+      
+    }
     $scope.totalMiles = function() {
       var total = 0;
       console.log(UserService.employees.response);
       for (var i = 0; i < UserService.employees.response.length; i++) {
         var employee = UserService.employees.response[i];
         var milesNumeric = parseFloat(employee.miles_commuted);
+
         total += milesNumeric;
       }
       return total;
