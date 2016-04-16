@@ -2,28 +2,28 @@
   <ng-include src="'/views/partials/header.html'"></ng-include>
   <div class="user-home">
 
-      <section layout-align="center center" class="welcome-banner">
-        <div layout-get-md="row">
+      <section layout-gt-sm="column" class="welcome-banner">
+        <div layout-align="center center">
           <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
         </div>
       </section>
 
       <section class="commute-form">
         <form name="commuteForm">
-          <div layout-gt-sm="row">
 
-          </div layout-gt-sm="row">
+          <div layout-gt-sm="column" layout-align="center center">
             <md-datepicker name="dateField" ng-model="user.date" md-placeholder="Enter date"
-                required md-min-date="minDate" md-max-date="maxDate" class="md-accent"></md-datepicker>
+                required md-min-date="minDate" md-max-date="maxDate" class="md-accent" layout-align="center center"></md-datepicker>
             <div class="validation-messages" ng-messages="commuteForm.dateField.$error">
               <div ng-message="valid">The entered value is not a date!</div>
               <div ng-message="required">This date is required!</div>
               <div ng-message="mindate">Date is too early!</div>
               <div ng-message="maxdate">Date is too late!</div>
             </div>
+          </div>
 
           <div layout-gt-sm="row">
-            <md-input-container class="md-block" flex-gt-sm>
+            <md-input-container class="md-block" flex-gt-sm layout-align="center center">
               <label>Mode of Transportation</label>
               <md-select ng-model="user.mode">
                 <md-option ng-repeat="mode in transportationModes"> {{ mode }} </md-option>

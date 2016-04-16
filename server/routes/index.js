@@ -9,6 +9,8 @@ var login = require('./login');
 var commute = require('./commute');
 var user = require('./user');
 var strava = require('./strava');
+var stravaInfo = require('./getStrava');
+var callStrava = require('./callStrava');
 
 
 router.use('/register', register);
@@ -19,6 +21,8 @@ router.use('/login', login);
 router.use('/commute', commute);
 router.use('/user', user);
 router.use('/auth/strava', strava);
+router.use('/stravainfo', stravaInfo);
+router.use('/callstrava', callStrava);
 
 
 router.get('/*', function(req, res) {

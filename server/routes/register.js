@@ -7,11 +7,12 @@ var encryptLib = require('../modules/encryption');
 
 
 router.get('/', function(req, res, next) {
-    res.sendFile(path.resolve(__dirname, '../../public/views/register.html'));
+    res.sendFile(path.resolve(__dirname, '../../public/views/index.html'));
 });
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
+  console.log('Registration info ', req.body);
   var saveUser = {
     email: req.body.email,
     password: encryptLib.encryptPassword(req.body.password),
@@ -46,7 +47,7 @@ router.post('/', function(req, res, next) {
 
           query.on('row', function(row) {
             results.push(row);
-            query = client.query('SELECT name FROM companies WHERE id = $1;',[saveUser.company]);
+            query = client.query('SELECT company_name FROM companies WHERE id = $1;',[saveUser.company]);
             console.log('results from "companies" query ', results);
             query.on('row', function(row) {
               result.push(row);

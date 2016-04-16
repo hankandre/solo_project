@@ -16,9 +16,9 @@ myApp.controller('UserRegistrationController', ['$scope', 'DataService', functio
     // $scope.companies = DataService.companies;
 
 
-    $scope.submit = function(user) {
-      user.admin = false;
-      DataService.postUser(user);
-    }
+    // $scope.submit = function(user) {
+    //   user.admin = false;
+    //   DataService.postUser(user);
+    // }
 
 }]);

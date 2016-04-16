@@ -5,6 +5,9 @@ var pg = require('pg');
 var db = require('../modules/db');
 var encryptLib = require('../modules/encryption');
 
+router.get('/', function(req, res, next) {
+    res.sendFile(path.resolve(__dirname, '../../public/views/index.html'));
+});
 
 router.post('/', function(req, res, next) {
   var saveUser = {
@@ -105,7 +108,6 @@ router.post('/', function(req, res, next) {
           res.send(error);
         });
 
-        console.log('results prior to insert "login" table ', results);
         query = client.query('INSERT INTO login (email, password, admin)' +
                                 'VALUES ($1, $2, $3) RETURNING id, email',
                                 [saveUser.email, saveUser.password, saveUser.admin]);

@@ -4,7 +4,6 @@ var db = require('../modules/db');
 var pg = require('pg');
 
 router.get('/:id', function(req, res) {
-  console.log('req.params ', req.params);
   pg.connect(db, function (err, client, done) {
     if (err) {
       done();

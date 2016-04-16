@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+require('dotenv').config();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var util = require('util');
@@ -10,6 +11,7 @@ var session = require('express-session');
 
 // ROUTES
 var index = require('./routes/index');
+
 
 
 app.use(bodyParser.json());

@@ -4,6 +4,7 @@
       <title>Commutr</title>
       <!-- STYLES -->
       <link rel="stylesheet" href="/assets/vendors/angular-material/angular-material.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link rel="stylesheet" href="/assets/styles/styles.css">
 
 
@@ -14,19 +15,38 @@
       <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
       <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
       <script type="text/javascript" src="/assets/scripts/app.js"></script>
-      <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
-      <script type="text/javascript" src="/assets/scripts/controllers/UserController.js"></script>
-      <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script> -->
+      <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script> -->
+      <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
+      <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
 
   </head>
 
   <body ng-controller="UserRegistrationController">
     <md-content layout-padding class="md-accent">
-      <header>
+      <header layout-gt-sm="row" layout-align="space-around center">
         <a href="/views/index.html"><img id="logo" src="/assets/images/logo19.png" alt="logo" /></a>
+        <h1 class="md-display-2">Commutr</h1>
+        <md-menu>
+            <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+              <i class="material-icons md-light md-inactive">directions_bike</i>
+            </md-button>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button href="#user">
+                  Home
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-item>
+                <md-button href="#editProfile">
+                  Edit Profile
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
       </header>
 
-        <div style="width : 600px; margin: 0 auto;">
+        <div class="user-registration-form">
           <div layout-align="center center" layout="column">
               <h3 class="md-title">User Registration</h3>
           </div>
@@ -51,10 +71,10 @@
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Sex</label>
-                <md-select ng-model="user.sex" name="sex">
-                  <md-option> Male </md-option>
-                  <md-option> Female </md-option>
-                  <md-option> Prefer Not to Say </md-option>
+                <md-select ng-model="user.sex">
+                  <md-option name="sex"> Male </md-option>
+                  <md-option name="sex"> Female </md-option>
+                  <md-option name="sex"> Prefer Not to Say </md-option>
                 </md-select>
               </md-input-container>
 
@@ -72,7 +92,7 @@
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company</label>
                 <md-select ng-model="user.company" name="company">
-                  <md-option ng-repeat="company in companies" ng-value="{{company.id}}"> {{company.name}} </md-option>
+                  <md-option ng-repeat="company in companies.response" name="company" ng-value="{{company.id}}"> {{company.company_name}} </md-option>
                 </md-select>
               </md-input-container>
             </div>
@@ -98,7 +118,7 @@
               <md-input-container class="md-block" flex-gt-sm>
                 <label>State</label>
                 <md-select ng-model="user.state" name="state">
-                  <md-option ng-repeat="state in states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
+                  <md-option ng-repeat="state in states" name="state" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
                 </md-select>
               </md-input-container>
 
@@ -108,21 +128,16 @@
               </md-input-container>
             </div>
 
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
+            <div layout-gt-sm="column" layout-align="center center">
+              <md-input-container md-colspan="2">
                 <label>Password</label>
                 <input name="password" type="password">
-              </md-input-container>
-
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Verify Password</label>
-                <input ng-model="user.password">
               </md-input-container>
             </div>
 
 
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-              <md-button type="submit" class="md-raised md-primary">SUBMIT</md-button>
+              <md-button type="submit" class="md-raised md-primary" href="/views/index.html">SUBMIT</md-button>
             </section>
           </form>
         </div>

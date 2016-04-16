@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
@@ -8,7 +8,7 @@
        url(../vendors/material-design-icons-master/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
        url(../vendors/material-design-icons-master/iconfont/MaterialIcons-Regular.woff) format('woff'),
        url(../vendors/material-design-icons-master/iconfont/MaterialIcons-Regular.ttf) format('truetype');
-}
+}*/
 
 .material-icons {
   font-family: 'Material Icons';
@@ -35,8 +35,9 @@
   font-feature-settings: 'liga';
 }
 
-#connectStrava {
-  
+.user-registration-form {
+  width: 50%;
+  margin: 0 auto;
 }
 
 .md-button.md-icon-button {

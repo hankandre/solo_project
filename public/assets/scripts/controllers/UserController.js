@@ -2,6 +2,8 @@ userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', func
 
     UserService.getUser();
 
+
+
     $scope.transportationModes = ['Bussed', 'Walked', 'Ran', 'Biked', 'Rollerbladed'];
 
     var originatorEv;
@@ -33,6 +35,8 @@ userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', func
 
     $scope.user = UserService.user.response;
     $scope.employees = UserService.employees;
+    $scope.strava = UserService.user;
+    console.log($scope.stravaInfo);
 
     $scope.totalMiles = function() {
       var total = 0;

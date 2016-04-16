@@ -5,13 +5,15 @@ var encryptLib = require('./encryption');
 var connection = require('./db');
 var pg = require('pg');
 
+var STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
+var STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
+
 passport.serializeUser(function(user, done) {
-  console.log('serializeUser user ', user);
+  console.log('serializeUser user parameter ', user);
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('called deserializeUser', id);
 
   pg.connect(connection, function(err, client) {
     if(err) {
@@ -23,8 +25,8 @@ passport.deserializeUser(function(id, done) {
       var query = client.query('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1', [id]);
 
       query.on('row', function(row) {
+        console.log('user object ', row);
         user = row;
-        console.log('User row ', user);
         done(null, user)
       });
 
@@ -39,7 +41,6 @@ passport.use('local', new localStrategy ({
   passReqToCallback: true,
   usernameField: 'email'
   }, function(req, email, password, done) {
-    console.log('email ', email);
     pg.connect(connection, function(err, client) {
       if (err) {
         console.log('Error connecting to db ', err);
@@ -50,7 +51,6 @@ passport.use('local', new localStrategy ({
         var query = client.query('SELECT * FROM login JOIN users ON (login.id = users.login_id) WHERE email = $1', [email]);
 
         query.on('row', function(row) {
-          console.log('User obj ', row);
           user = row;
 
           if(encryptLib.comparePassword(password, user.password)) {
@@ -71,22 +71,58 @@ passport.use('local', new localStrategy ({
 
 
 passport.use('strava', new stravaStrategy({
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
+    clientID: STRAVA_CLIENT_ID,
+    clientSecret: STRAVA_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:5000/auth/strava/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-    console.log('accessToken ', accessToken);
-    console.log('refreshToken ', refreshToken);
-    console.log('profile ', profile);
+  function(accessToken, refreshToken, stravaProfile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      console.log('Strava profile ', profile);
+      var stravaInfo = {
+        id: stravaProfile._json.id,
+        email: stravaProfile._json.email,
+        pic: stravaProfile._json.profile
+      }
+
+      pg.connect(connection, function(err, client, finished) {
+        if (err) {
+          console.log('Error connecting to db for Strava input', err);
+        } else {
+          var loginInfo = {};
+          var query = client.query('SELECT * FROM login WHERE email = $1', [stravaInfo.email]);
+
+          query.on('row', function(row) {
+            loginInfo = row;
+            query = client.query('UPDATE users ' +
+                                  'SET strava_id = $2 ' +
+                                  'WHERE login_id = $1;',
+                                  [loginInfo.id, stravaInfo.id]);
+
+            query.on('end', function() {
+              finished();
+              done(null, loginInfo);
+            });
+            query.on('error', function(error) {
+              console.log('Error inserting into Strava table ', error);
+              finished();
+            });
+          });
+
+          query.on('end', function() {
+            finished();
+          });
+
+          query.on('error', function(error) {
+            console.log('Error retreiving info for Strava match ', error);
+            finished();
+          });
+
+        }
+      });
       // To keep the example simple, the user's Strava profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Strava account with a user record in your database,
       // and return that user instead.
-      return done(null, profile);
     });
   }
 ));
