@@ -69,18 +69,19 @@ router.post('/', function(req, res, next) {
 
       query = client.query('CREATE TABLE IF NOT EXISTS users (' +
                             'id SERIAL PRIMARY KEY,' +
-                            'first_name varchar(160),' +
-                            'last_name varchar(160),' +
-                            'company_id integer,' +
-                            'address varchar(160),' +
-                            'address2 varchar(160),' +
-                            'city varchar(160),' +
-                            'state varchar(10),' +
-                            'zip_code integer,' +
-                            'sex varchar(100),' +
-                            'age integer,' +
-                            'birthdate date,' +
-                            'login_id integer,' +
+                            'first_name VARCHAR(160),' +
+                            'last_name VARCHAR(160),' +
+                            'company_id INTEGER,' +
+                            'address VARCHAR(160),' +
+                            'address2 VARCHAR(160),' +
+                            'city VARCHAR(160),' +
+                            'state VARCHAR(10),' +
+                            'zip_code INTEGER,' +
+                            'sex VARCHAR(100),' +
+                            'age INTEGER,' +
+                            'birthdate DATE,' +
+                            'login_id INTEGER,' +
+                            'strava_id INTEGER,' +
                             'CONSTRAINT "companies.id" FOREIGN KEY ("company_id") REFERENCES companies("id"),' +
                             'CONSTRAINT "login.id" FOREIGN KEY ("login_id") REFERENCES login("id")' +
                             ');');

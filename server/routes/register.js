@@ -16,8 +16,8 @@ router.post('/', function(req, res, next) {
   var saveUser = {
     email: req.body.email,
     password: encryptLib.encryptPassword(req.body.password),
-    first_name: req.body.firstname,
-    last_name: req.body.lastname,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     company: req.body.company,
     benefit_type: req.body.benefit,
     address: req.body.address,
@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
             query = client.query('SELECT company_name FROM companies WHERE id = $1;',[saveUser.company]);
             console.log('results from "companies" query ', results);
             query.on('row', function(row) {
-              result.push(row);
+              results.push(row);
               console.log('Getting companies_name ', results);
             });
 

@@ -16,12 +16,14 @@ router.get('/', function(req, res) {
       query.on('row', function (row) {
         console.log('companies in "companies" table', row);
         results.push(row);
+        console.log('"companies" results array ', results);
         done();
       });
 
       query.on('end', function () {
         done();
         res.send(results);
+        client.end();
       });
 
       query.on('error', function(error) {

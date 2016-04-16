@@ -16,11 +16,16 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
         user.response = response.data;
         $location.path('/admin');
         getEmployees();
+      } else if (response.data.strava_id != null) {
+        var stravaId = response.data.strava_id;
+        console.log(response.data);
+        user.response = response.data;
+        $location.path('/user');
+        callStrava(stravaId);
       } else {
         console.log(response.data);
         user.response = response.data;
         $location.path('/user');
-        callStrava(response.data.strava_id);
       }
     });
   }

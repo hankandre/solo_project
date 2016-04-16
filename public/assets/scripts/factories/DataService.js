@@ -18,12 +18,12 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
       });
     }
 
-    // var postUser = function(user){
-    //   $http.post('/register', user).then(function(response){
-    //     console.log(response);
-    //     // $window.location.href = 'views/index.html';
-    //   });
-    // };
+    var postUser = function(user){
+      $http.post('/register', user).then(function(response){
+        console.log(response);
+        // $window.location.href = 'views/index.html';
+      });
+    };
     //
     // var postAdmin = function(admin){
     //   $http.post('/registeradmin', admin).then(function(response){
@@ -52,7 +52,7 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
       getCompanies: getCompanies,
       getEmployees: getEmployees,
       employees: employees,
-      // postUser: postUser,
+      postUser: postUser,
       // postAdmin: postAdmin,
       postCommuteData: postCommuteData,
       // loginUser: loginUser,

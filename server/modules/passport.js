@@ -10,10 +10,11 @@ var STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 
 passport.serializeUser(function(user, done) {
   console.log('serializeUser user parameter ', user);
-  done(null, user.id);
+  done(null, user.login_id);
 });
 
 passport.deserializeUser(function(id, done) {
+  console.log('deserializeUser id ', id);
 
   pg.connect(connection, function(err, client) {
     if(err) {
@@ -45,12 +46,13 @@ passport.use('local', new localStrategy ({
       if (err) {
         console.log('Error connecting to db ', err);
       } else {
-        console.log('Called local sql Passport strategy.');
+        console.log('Called local sql Passport strategy.', email);
 
         var user = {};
-        var query = client.query('SELECT * FROM login JOIN users ON (login.id = users.login_id) WHERE email = $1', [email]);
+        var query = client.query('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.email = $1', [email]);
 
         query.on('row', function(row) {
+          console.log('localStrategy row ', row);
           user = row;
 
           if(encryptLib.comparePassword(password, user.password)) {
