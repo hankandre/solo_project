@@ -13,52 +13,94 @@
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
     <script type="text/javascript" src="/assets/scripts/app.js"></script>
-    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/UserController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script> -->
+    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script> -->
+    <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
 
   </head>
 
-  <body>
+  <body ng-controller="UserRegistrationController">
     <md-content layout-padding>
 
-      <header>
-        <a href="/views/index.html"><img id="logo" src="/assets/images/logo19.png" alt="logo" /></a>
-      </header>
+      <header layout-gt-md="row" layout-align="space-around center">
+        <a href="/views/index.html"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+        <h1 class="md-display-2">Commutr</h1>
+        <md-menu>
+            <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+              <img ng-src="../assets/images/icons/ic_directions_bike_black_24dp_2x.png" alt=" image icon" />
+            </md-button>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button href="/views/index.html">
+                  Login
+                </md-button>
+              </md-menu-item>
 
-        <div class="admin-registration-form" style="width : 600px; margin: 0 auto;">
+              <md-menu-item>
+                <md-button href="/views/register-admin.html">
+                  Register a Company
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-item>
+                <md-button href="/views/register-user.html">
+                  Register a New User
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </header>
+
+        <div class="user-registration-form" ng-controller="UserRegistrationController">
           <div layout-align="center center" layout="column">
               <h3 class="md-title">Admin Registration</h3>
           </div>
-          <form name="userRegistration" action="/registeradmin" method="post">
+          <form name="adminRegistration" ng-submit="submitAdmin(admin)" novalidate>
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>First Name</label>
-                <input name="firstname">
+                <input name="firstname" type="text" ng-model="admin.firstname" minlength="2" required>
+                <div ng-messages="adminRegistration.firstname.$error">
+                  <p ng-message="required">Please fill out your first name.</p>
+                  <p ng-message="minlength">That was too short. Please enter your first name.</p>
+                </div>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Last Name</label>
-                <input name="lastname">
+                <input name="lastname" type="text" ng-model="admin.lastname" minlength="2" required>
+                <div ng-messages="adminRegistration.lastname.$error">
+                  <p ng-message="required">Please fill out your last name.</p>
+                  <p ng-message="minlength">That was too short. Please enter your last name.</p>
+                </div>
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>email</label>
-                <input name="email">
+                <input name="email" type="email" ng-model="admin.email" required>
+                <div ng-messages="adminRegistration.email.$error" multiple>
+                  <p ng-message="required">You forgot to enter your email.</p>
+                  <p ng-message="email">Please enter a valid email address!</p>
+                </div>
+
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company</label>
-                <input name="compay_name">
+                <input name="company_name" type="text" ng-model="admin.company_name" minlength="2" required>
+                <div ng-messages="adminRegistration.company_name.$error" multiple>
+                  <p ng-message="required">You forgot to enter your company's name.</p>
+                  <p ng-message="minlength">Are you sure it's less than two characters?</p>
+                </div>
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Company Size</label>
-                <md-select name="companysize" ng-model="user.companysize">
+                <md-select name="companysize" ng-model="admin.companysize" required>
                   <md-option>1-5</md-option>
                   <md-option>5-15</md-option>
                   <md-option>15-30</md-option>
@@ -68,64 +110,88 @@
                   <md-option>500-1000</md-option>
                   <md-option>1000+</md-option>
                 </md-select>
+                <div ng-messages="adminRegistration.companysize.$error" multiple>
+                  <p ng-message="required">You forgot to enter your company's size.</p>
+                </div>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Benefit Type</label>
-                <md-select name="benefit_type" ng-model="user.benefit">
+                <md-select name="benefit_type" ng-model="admin.benefit_type" required>
                   <md-option>Points</md-option>
                   <md-option>Reimbursement</md-option>
                   <md-option>Insurance Deduction</md-option>
                 </md-select>
+                <div ng-messages="adminRegistration.benefit_type.$error">
+                  <p ng-message="required">Please enter a benefit type!</p>
+                </div>
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Address</label>
-                <input name="address">
+                <input name="address" type="text" ng-model="admin.address" minlength="5" md-maxlength="30" required>
+                <div ng-messages="adminRegistration.address.$error" multiple>
+                  <p ng-message="required">What's your address? In case we need to reach you.</p>
+                  <p ng-message="minlength">Are you sure it's less than two characters?</p>
+                  <p ng-message="md-maxlength">That's way too long!</p>
+                </div>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Address 2</label>
-                <input name="address2">
+                <input name="address2" type="text" ng-model="admin.address2" minlength="2">
+                <div ng-messages="adminRegistration.address2.$error">
+                  <p ng-message="minlength">Are you sure it's less than two characters?</p>
+                </div>
               </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
               <md-input-container class="md-block" flex-gt-sm>
                 <label>City</label>
-                <input name="city">
+                <input name="city" type="text" ng-model="admin.city" minlength="2" required>
+                <div ng-messages="adminRegistration.city.$error" multiple>
+                  <p ng-message="required">Where can we find you in your state?</p>
+                  <p ng-message="minlength">Are you sure it's less than two characters?</p>
+                </div>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>State</label>
-                <md-select name="state" ng-model="user.state">
+                <md-select name="state" ng-model="admin.state" type="text" required>
                   <md-option ng-repeat="state in states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
                 </md-select>
+                <div ng-messages="adminRegistration.state.$error">
+                  <p ng-message="required">Where in the U.S. are you?!</p>
+                </div>
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Zip Code</label>
-                <input name="zip">
+                <input name="zip" type="number" ng-model="admin.zip" minlength="5" required>
+                <div ng-messages="adminRegistration.zip.$error" multiple>
+                  <p ng-message="required">You forgot your zip code!</p>
+                  <p ng-message="minlength">Um, most zip codes are 5 characters long...</p>
+                </div>
               </md-input-container>
             </div>
 
-            <div layout-gt-sm="row">
-              <md-input-container class="md-block" flex-gt-sm>
+            <div layout-gt-sm="column" layout-align="center center">
+              <md-input-container md-colspan="2">
                 <label>Password</label>
-                <input name="password" type="password">
-              </md-input-container>
-
-              <md-input-container class="md-block" flex-gt-sm>
-                <label>Verify Password</label>
-                <input ng-model="user.password" type="password">
+                <input name="password" type="password" ng-model="admin.password" minlength="1" required>
+                <div ng-messages="adminRegistration.password.$error" multiple>
+                  <p ng-message="required">You forgot your password, of all things!</p>
+                  <p ng-message="minlength">That's not really secure, at all.</p>
+                </div>
               </md-input-container>
             </div>
 
 
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-              <md-button type="submit" class="md-raised md-primary">SUBMIT</md-button>
+            <section layout-gt-sm="column" layout-align="center center" layout-wrap>
+              <md-button type="submit" ng-disabled="adminRegistration.$invalid" class="md-raised md-primary">SUBMIT</md-button>
             </section>
           </form>
         </div>

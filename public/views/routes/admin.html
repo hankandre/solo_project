@@ -1,15 +1,16 @@
 <md-content layout-padding ng-cloak>
   <div ng-controller="UserController">
-  <header layout-get-md="row">
-    <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-    <h1 id="companyName" class="md-headline">{{user.company_name}}</h1>
+  <header layout-gt-md="row" layout-align="space-around center">
+    <a href="#admin"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+    <h1 id="companyName" class="md-display-2">{{user.company_name}}</h1>
+    <h1 class="md-headline">Admin</h1>
+    <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
   </header>
 
-  <section layout-align="center center" class="welcome-banner">
-    <div layout-get-md="row">
-      <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
+    <div layout-gt-md="column" layout-align="end center">
+      <h1 id="welcome" class="md-caption">{{user.first_name}}!</h1>
     </div>
-  </section>
+
   <section class="employee-table">
     <md-toolbar layout-gt-sm="row"  class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
@@ -19,7 +20,7 @@
 
     <!-- exact table from live demo -->
     <md-table-container>
-      <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+      <table md-table md-row-select multiple  md-progress="promise">
         <thead md-head md-order="query.order" md-order="myOrder">
           <tr md-row>
             <th md-column><span>Date</span></th>
@@ -31,7 +32,7 @@
           </tr>
         </thead>
         <tbody md-body>
-          <tr md-row md-select="employee" md-select-id="id" md-auto-select ng-repeat="employee in employees.response | orderBy: myOrder">
+          <tr md-row md-select="employee" ng-repeat="employee in employees.response | orderBy: myOrder">
             <td md-cell>{{employee.date | date: "MMM-dd-yyyy" : '-0500'}}</td>
             <td md-cell>{{employee.email}}</td>
             <td md-cell>{{employee.first_name}}</td>

@@ -10,14 +10,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+  console.log(req.body);
   var saveUser = {
     email: req.body.email,
     password: encryptLib.encryptPassword(req.body.password),
     first_name: req.body.firstname,
     last_name: req.body.lastname,
-    company: req.body.company,
+    company: req.body.company_name,
     company_size: req.body.companysize,
-    benefit_type: req.body.benefit,
+    benefit_type: req.body.benefit_type,
     address: req.body.address,
     address2: req.body.address2,
     zip_code: req.body.zip,

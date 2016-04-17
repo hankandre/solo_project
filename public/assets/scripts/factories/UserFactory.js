@@ -31,7 +31,10 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
   }
 
     var postCommuteData = function(commute) {
-      console.log(commute);
+      commute.firstName = user.response.first_name;
+      commute.lastName = user.response.last_name;
+      commute.email = user.response.email;
+      commute.company = user.response.company_name;
       $http.post('/commute', commute).then(function(response) {
         console.log(response);
       });

@@ -13,9 +13,9 @@
     <script type="text/javascript" src="/assets/vendors/angular-aria/angular-aria.min.js"></script>
     <script type="text/javascript" src="/assets/vendors/angular-material/angular-material.min.js"></script>
     <script type="text/javascript" src="/assets/scripts/app.js"></script>
-    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/controllers/UserController.js"></script>
-    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script> -->
+    <!-- <script type="text/javascript" src="/assets/scripts/controllers/AdminController.js"></script> -->
+    <script type="text/javascript" src="/assets/scripts/controllers/UserRegistrationController.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/DataService.js"></script>
   </head>
 
 
@@ -23,9 +23,34 @@
 
 
     <md-content layout-padding>
-      <header>
-        <a href="#login"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-      </header>
+      <header layout-gt-md="row" layout-align="space-around center" ng-controller="UserRegistrationController">
+        <a href="/views/index.html"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+        <h1 class="md-display-2">Commutr</h1>
+        <md-menu>
+            <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+              <img ng-src="../assets/images/icons/ic_directions_bike_black_24dp_2x.png" alt=" image icon" />
+            </md-button>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button href="/views/index.html">
+                  Login
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-item>
+                <md-button href="/views/register-admin.html">
+                  Register a Company
+                </md-button>
+              </md-menu-item>
+
+              <md-menu-item>
+                <md-button href="/views/register-user.html">
+                  Register a New User
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </header>
 
       <div class="login-form">
           <!-- Set form action and method -->

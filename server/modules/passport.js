@@ -85,17 +85,20 @@ passport.use('strava', new stravaStrategy({
         id: stravaProfile._json.id,
         email: stravaProfile._json.email,
         pic: stravaProfile._json.profile
-      }
+      };
+
+      console.log('stravaInfo ', stravaInfo);
 
       pg.connect(connection, function(err, client, finished) {
         if (err) {
           console.log('Error connecting to db for Strava input', err);
         } else {
           var loginInfo = {};
-          var query = client.query('SELECT * FROM login WHERE email = $1', [stravaInfo.email]);
+          var query = client.query('SELECT id AS login_id, * FROM login WHERE email = $1', [stravaInfo.email]);
 
           query.on('row', function(row) {
             loginInfo = row;
+            console.log('strava strategy SELECT login, ', loginInfo);
             query = client.query('UPDATE users ' +
                                   'SET strava_id = $2 ' +
                                   'WHERE login_id = $1;',
@@ -103,7 +106,7 @@ passport.use('strava', new stravaStrategy({
 
             query.on('end', function() {
               finished();
-              done(null, loginInfo);
+
             });
             query.on('error', function(error) {
               console.log('Error inserting into Strava table ', error);
@@ -113,6 +116,7 @@ passport.use('strava', new stravaStrategy({
 
           query.on('end', function() {
             finished();
+            done(null, loginInfo);
           });
 
           query.on('error', function(error) {

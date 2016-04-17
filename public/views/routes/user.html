@@ -2,54 +2,51 @@
   <ng-include src="'/views/partials/header.html'"></ng-include>
   <div class="user-home">
 
-      <section layout-gt-sm="column" class="welcome-banner">
-        <div layout-align="center center">
-          <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
-        </div>
-      </section>
+    <div layout-gt-lg="column" >
+      <h1 id="welcome" class="md-caption" layout-align="end end">{{userData.first_name}}!</h1>
+    </div>
 
-      <section class="commute-form">
-        <form name="commuteForm">
+      <section class="commute-form" ng-controller="UserController">
+        <form name="commuteForm" ng-submit="submit(person)" novalidate>
 
-          <div layout-gt-sm="column" layout-align="center center">
-            <md-datepicker name="dateField" ng-model="user.date" md-placeholder="Enter date"
-                required md-min-date="minDate" md-max-date="maxDate" class="md-accent" layout-align="center center"></md-datepicker>
-            <div class="validation-messages" ng-messages="commuteForm.dateField.$error">
-              <div ng-message="valid">The entered value is not a date!</div>
-              <div ng-message="required">This date is required!</div>
-              <div ng-message="mindate">Date is too early!</div>
-              <div ng-message="maxdate">Date is too late!</div>
-            </div>
+          <div layout-gt-sm="column" layout-align="center center" >
+            <md-datepicker name="date" ng-model="person.date" md-placeholder="Date of Commute" required md-min-date="minDate" md-max-date="maxDate" class="md-accent" layout-align="center center">
+              <div ng-messages="commuteForm.date.$error" multiple>
+                <div ng-message="valid">The entered value is not a date!</div>
+                <div ng-message="required">This date is required!</div>
+                <div ng-message="mindate">Date is too early!</div>
+                <div ng-message="maxdate">Date is too late!</div>
+              </div>
+            </md-datepicker>
           </div>
 
           <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm layout-align="center center">
               <label>Mode of Transportation</label>
-              <md-select ng-model="user.mode">
+              <md-select ng-model="person.mode" required>
                 <md-option ng-repeat="mode in transportationModes"> {{ mode }} </md-option>
               </md-select>
+              <div ng-messages="commuteForm.mode.$error">
+                <p ng-message="required">This field is required.</p>
+              </div>
             </md-input-container>
 
             <md-input-container class="md-block" flex-gt-sm>
               <label>Miles</label>
-              <input ng-model="user.miles" type="number" step=".01">
+              <input ng-model="person.miles" type="number" step=".01" required>
+              <div ng-messages="commuteForm.mode.$error">
+                <p ng-message="required">This field is required.</p>
+                <p ng-message="valid">Please enter a valid number</p>
+              </div>
             </md-input-container>
           </div>
 
           <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-            <md-button ng-click="submit(user)" class="md-raised md-primary">SUBMIT</md-button>
+            <md-button type="submit" ng-disable="commuteForm.$invalid" class="md-raised md-primary">SUBMIT</md-button>
           </section>
         </form>
       </section>
 
-
-    	<!--
-    	<cjs-bar></cjs-bar>
-    	<cjs-line></cjs-line>
-    	<cjs-radar></cjs-radar>
-    	<cjs-polar></cjs-polar>
-    	<cjs-pie></cjs-pie>
-    	-->
     </div>
     </div>
   </div>

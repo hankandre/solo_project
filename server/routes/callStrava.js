@@ -4,7 +4,7 @@ var strava = require('strava-v3');
 
 
 router.get('/:id', function(req, res) {
-  strava.athletes.get({id: req.params.id}, function(err, payload) {
+  strava.activities.get({}, function(err, payload) {
     console.log('strava-v3 err ', err);
     console.log('strava-v3 payload ', payload);
     res.send(payload);
