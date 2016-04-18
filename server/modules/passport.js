@@ -8,6 +8,7 @@ var pg = require('pg');
 var STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 var STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 
+
 passport.serializeUser(function(user, done) {
   console.log('serializeUser user parameter ', user);
   done(null, user.login_id);

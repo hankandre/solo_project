@@ -31,11 +31,11 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
   }
 
     var postCommuteData = function(commute) {
-      commute.firstName = user.response.first_name;
-      commute.lastName = user.response.last_name;
-      commute.email = user.response.email;
-      commute.company = user.response.company_name;
-      $http.post('/commute', commute).then(function(response) {
+      user.response.date = commute.date;
+      user.response.mode = commute.mode;
+      user.response.miles = commute.miles;
+      console.log(user.response);
+      $http.post('/commute', user.response).then(function(response) {
         console.log(response);
       });
     };
