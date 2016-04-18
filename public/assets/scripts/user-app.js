@@ -17,9 +17,9 @@ userApp.config(["$routeProvider", function($routeProvider){
           templateUrl: '/views/routes/user.html',
           controller: 'UserController'
       }).
-      when("/editProfile", {
-          templateUrl: '/views/routes/user-edit-profile.html',
-          controller: 'EditInfoController'
+      when("/strava", {
+          templateUrl: '/views/routes/strava-data.html',
+          controller: 'UserController'
       }).
       when("/admin", {
           templateUrl: '/views/routes/admin.html',

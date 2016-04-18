@@ -83,6 +83,7 @@ router.post('/', function(req, res, next) {
                             'birthdate DATE,' +
                             'login_id INTEGER,' +
                             'strava_id INTEGER,' +
+                            'strava_pic TEXT, ' +
                             'CONSTRAINT "companies.id" FOREIGN KEY ("company_id") REFERENCES companies("id"),' +
                             'CONSTRAINT "login.id" FOREIGN KEY ("login_id") REFERENCES login("id")' +
                             ');');

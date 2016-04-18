@@ -81,10 +81,11 @@ passport.use('strava', new stravaStrategy({
   function(accessToken, refreshToken, stravaProfile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
+      console.log(stravaProfile);
       var stravaInfo = {
         id: stravaProfile._json.id,
         email: stravaProfile._json.email,
-        pic: stravaProfile._json.profile
+        pic: stravaProfile._json.profile_medium
       };
 
       console.log('stravaInfo ', stravaInfo);
@@ -100,14 +101,21 @@ passport.use('strava', new stravaStrategy({
             loginInfo = row;
             console.log('strava strategy SELECT login, ', loginInfo);
             query = client.query('UPDATE users ' +
-                                  'SET strava_id = $2 ' +
-                                  'WHERE login_id = $1;',
-                                  [loginInfo.id, stravaInfo.id]);
+                                  'SET strava_id = $2, ' +
+                                  'strava_pic = $3 ' +
+                                  'WHERE login_id = $1 ' +
+                                  'RETURNING strava_id, strava_pic;',
+                                  [loginInfo.id, stravaInfo.id, stravaInfo.pic]);
+
+            query.on('row', function(row) {
+              console.log('Strava insert data ', row);
+              finished();
+            });
 
             query.on('end', function() {
               finished();
-
             });
+
             query.on('error', function(error) {
               console.log('Error inserting into Strava table ', error);
               finished();

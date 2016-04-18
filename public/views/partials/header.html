@@ -1,14 +1,19 @@
 <header layout-gt-md="row" layout-align="space-around center" ng-controller="UserController" ng-controller="UserController" ng-cloak>
-  <a href="#user"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+  <a href="/views/index.html"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
   <h1 class="md-display-2">{{userData.company_name}}</h1>
   <md-menu>
       <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-        <img ng-src="{{strava.stravaInfo.profile_medium || '../assets/images/icons/ic_directions_bike_black_24dp_2x.png'}}" alt="user image icon" />
+        <img ng-src="{{userData.strava_pic || '../assets/images/icons/ic_directions_bike_black_24dp_2x.png'}}" alt="user image icon" />
       </md-button>
       <md-menu-content width="4">
         <md-menu-item>
           <md-button href="#user">
             Home
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button href="#strava">
+            Strava Info
           </md-button>
         </md-menu-item>
       </md-menu-content>

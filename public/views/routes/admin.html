@@ -2,13 +2,12 @@
   <div ng-controller="UserController">
   <header layout-gt-md="row" layout-align="space-around center">
     <a href="#admin"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
-    <h1 id="companyName" class="md-display-2">{{user.company_name}}</h1>
+    <h1 id="companyName" class="md-display-2">{{userData.company_name}}</h1>
     <h1 class="md-headline">Admin</h1>
-    <h1 id="welcome" class="md-title">Welcome, {{user.first_name}}!</h1>
   </header>
 
     <div layout-gt-md="column" layout-align="end center">
-      <h1 id="welcome" class="md-caption">{{user.first_name}}!</h1>
+      <h1 id="welcome" class="md-caption">{{userData.first_name}}!</h1>
     </div>
 
   <section class="employee-table">

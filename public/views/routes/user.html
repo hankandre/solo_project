@@ -41,10 +41,27 @@
             </md-input-container>
           </div>
 
-          <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+          <section layout-gt-sm="column" layout-align="center center" layout-wrap>
             <md-button type="submit" ng-disable="commuteForm.$invalid" class="md-raised md-primary">SUBMIT</md-button>
           </section>
         </form>
+      </section>
+
+      <section>
+        <div class="strava-info" layout-gt-sm="row" layout-align="space-between center">
+          <h2>Strava Successes:</h2>
+          <h3>Biggest Ride: {{strava.stravaInfo.biggest_ride_distance * 0.000621371192 | number}} miles</h3>
+          <h3>Biggest Elevation Gain: {{strava.stravaInfo.biggest_climb_elevation_gain * 0.3048 | number}} feet</h3>
+        </div>
+
+        <div class="strava-info" layout-gt-sm="column" layout-align="center center">
+          <h3>Recent Stats</h3>
+          <h4>Cycling Totals</h4>
+        </div>
+        <div layout-gt-sm="row" layout-align="space-between center" ng-repeat="(key, value) in strava.stravaInfo.recent_ride_totals">
+          <h5>{{key}}</h5>
+          <h5>{{value}}</h5>
+        </div>
       </section>
 
     </div>
