@@ -8,7 +8,7 @@ var publicAPI = {
   },
   comparePassword: function(candidatePassword, storedPassword) {
     console.log('comparing passwords. candidatePassword ', candidatePassword, 'storedPassword ', storedPassword);
-    return bcrypt.compareSync(candidatePassword, storedPassword)
+    return bcrypt.compareSync(candidatePassword, storedPassword);
   }
 };
 
