@@ -9,7 +9,7 @@ var employees = require('./employees');
 var login = require('./login');
 var commute = require('./commute');
 var user = require('./user');
-var stravaStrategy = require('./strava');
+var stravaStrategy = require('../modules/stravaStrategy');
 var callStrava = require('./callStrava');
 var createdb = require('../modules/createdb');
 

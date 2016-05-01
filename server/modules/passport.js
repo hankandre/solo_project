@@ -5,8 +5,8 @@ var encryptLib = require('./encryption');
 var connection = require('./connection');
 var pg = require('pg');
 
-var STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
-var STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
+const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
+const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 
 
 passport.serializeUser(function(user, done) {
