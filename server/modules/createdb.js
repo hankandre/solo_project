@@ -73,4 +73,26 @@ pg.connect(connection, function(err, client, done) {
       console.log('Error creating "users" table:', error);
       res.status(500).send(error);
     });
+
+    query = client.query('CREATE TABLE IF NOT EXISTS strava(' +
+                          'id SERIAL PRIMARY KEY,' +
+                          'users_id INTEGER, ' +
+                          'strava_id INTEGER, ' +
+                          'start_date DATE, ' +
+                          'activity_id INTEGER, ' +
+                          'distance NUMERIC, ' +
+                          'average_speed NUMERIC, ' +
+                          'elevation_gain NUMERIC, ' +
+                          'elapsed_time INTEGER, ' +
+                          'moving_time INTEGER);');
+
+    query.on('end', function() {
+      done();
+    });
+
+    query.on('error', function(error) {
+      done();
+      console.log('Error creating "strava" table: ', error);
+      res.status(500).send(error);
+    });
 });
