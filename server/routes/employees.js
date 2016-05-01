@@ -13,7 +13,7 @@ router.get('/:id', function(req, res) {
     if (err) {
       done();
       console.log('Error connecting to the Database ', err);
-      res.send(err);
+      res.status(500).send(err);
     } else {
 
       // Creates an empty array to push the employees to
@@ -23,24 +23,29 @@ router.get('/:id', function(req, res) {
       var company = req.params.id;
 
       // Runs the query on the specific company's table and returns all the employees found in it.
-      var query = client.query('SELECT * FROM ' + company +' JOIN users ON (' + company + '.users_id = users.id) JOIN login ON (' + company + '.login_id = login.id)');
+      var query = client.query('SELECT * FROM ' + company +
+                                'JOIN users ON (' + company +
+                                '.users_id = users.id) JOIN login ON (' +
+                                company + '.login_id = login.id);');
 
+      // Pushes the employees for the company into an array.
       query.on('row', function (row) {
-        console.log('employees ', row);
         employees.push(row);
         done();
       });
 
+      // Ends the query and sends the employees for the specific company.
       query.on('end', function () {
         done();
-        console.log(employees);
-        res.send(employees);
+        res.status(200).send(employees);
+        client.end();
       });
 
+      // Handles any errors while running the query.
       query.on('error', function(error) {
         console.log('Error running EMPLOYEES query ', error);
         done();
-        res.send(error);
+        res.status(500).send(error);
       });
     }
   });

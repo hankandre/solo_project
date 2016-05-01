@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
       query.on('error', function(error) {
         console.log('Error querying database ', error);
         done();
-        res.send(error);
+        res.status(500).send(error);
       });
     }
   });

@@ -1,3 +1,4 @@
+// MODULES
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -12,7 +13,7 @@ var strava = require('./strava');
 var stravaInfo = require('./getStrava');
 var callStrava = require('./callStrava');
 
-
+// ROUTES
 router.use('/register', register);
 router.use('/registeradmin', registerAdmin);
 router.use('/companies', companies);
@@ -24,7 +25,7 @@ router.use('/auth/strava', strava);
 router.use('/stravainfo', stravaInfo);
 router.use('/callstrava', callStrava);
 
-
+// CATCH-ALL ROUTE
 router.get('/*', function(req, res) {
   var file = req.params[0] || '/views/index.html';
   res.sendFile(path.join(__dirname, '../../public/', file));
