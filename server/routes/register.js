@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var pg = require('pg');
-var db = require('../modules/db');
+var connection = require('../modules/connection');
 var encryptLib = require('../modules/encryption');
 
 
@@ -36,7 +36,7 @@ router.post('/', function(req, res, next) {
   var results = [];
 
 // Opens the connection to the database.
-  pg.connect(db, function(err, client, done) {
+  pg.connect(connection, function(err, client, done) {
 
     // Handles any errors when connecting to the database.
     if (err) {

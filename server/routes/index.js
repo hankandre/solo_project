@@ -9,9 +9,9 @@ var employees = require('./employees');
 var login = require('./login');
 var commute = require('./commute');
 var user = require('./user');
-var strava = require('./strava');
-var stravaInfo = require('./getStrava');
+var stravaStrategy = require('./strava');
 var callStrava = require('./callStrava');
+var createdb = require('../modules/createdb');
 
 // ROUTES
 router.use('/register', register);
@@ -21,8 +21,7 @@ router.use('/employees', employees);
 router.use('/login', login);
 router.use('/commute', commute);
 router.use('/user', user);
-router.use('/auth/strava', strava);
-router.use('/stravainfo', stravaInfo);
+router.use('/auth/strava', stravaStrategy);
 router.use('/callstrava', callStrava);
 
 // CATCH-ALL ROUTE

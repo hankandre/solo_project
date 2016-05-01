@@ -2,7 +2,7 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var stravaStrategy = require('passport-strava-oauth2').Strategy;
 var encryptLib = require('./encryption');
-var connection = require('./db');
+var connection = require('./connection');
 var pg = require('pg');
 
 var STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var pg = require('pg');
-var db = require('../modules/db');
+var connection = require('../modules/connection');
 
 // Handles the posting of user's commute data to the database
 router.post('/', function(req, res) {
@@ -18,7 +18,7 @@ router.post('/', function(req, res) {
   };
 
   // Connects to the database
-  pg.connect(db, function(err, client, done) {
+  pg.connect(connection, function(err, client, done) {
     // If there's an error connecting to the database, log it to the console and send the error to the client
     if (err) {
       done();

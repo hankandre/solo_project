@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var pg = require('pg');
-var db = require('../modules/db');
+var connection = require('../modules/connection');
 var encryptLib = require('../modules/encryption');
 
 // router.get('/', function(req, res, next) {
@@ -36,7 +36,7 @@ router.post('/', function(req, res, next) {
   var results = [];
 
   // Opens a connection to the database.
-  pg.connect(db, function(err, client, done) {
+  pg.connect(connection, function(err, client, done) {
 
     // Handles any errors while connecting to the database.
     if (err) {
@@ -45,77 +45,7 @@ router.post('/', function(req, res, next) {
       res.status(500).send(err)
     }
     else {
-      // Begins the query of the database, creating the "login" table if it doesn't already exist.
-      var query = client.query('CREATE TABLE IF NOT EXISTS "public"."login" (' +
-                                '"id" serial, ' +
-                                '"email" varchar(160), ' +
-                                '"password" varchar(160), ' +
-                                '"admin" boolean, ' +
-                                'PRIMARY KEY ("id"));');
 
-      // Closes the connection to postgres when the query is done.
-      query.on('end', function() {
-        done();
-      });
-
-      // Handles any errors while running the query.
-      query.on('error', function(error) {
-        console.log('Error running query:', error);
-        done();
-        res.status(500).send(error);
-        client.end();
-      });
-
-      // Creates a "companies" table, if it doesn't exist.
-      query = client.query('CREATE TABLE IF NOT EXISTS companies' +
-                          '(id SERIAL PRIMARY KEY, ' +
-                          'company_name varchar(160), ' +
-                          'benefit_type varchar(160));');
-
-      // Ends the connection to postgres when the query has ended.
-      query.on('end', function() {
-        done();
-      });
-
-      // Handles any errors when running the query.
-      query.on('error', function(error) {
-        done();
-        console.log('Error running query:', error);
-        res.status(500).send(error);
-      });
-
-      // Creates the "users" table, if it doesn't already exist
-      query = client.query('CREATE TABLE IF NOT EXISTS users (' +
-                            'id SERIAL PRIMARY KEY,' +
-                            'first_name VARCHAR(160),' +
-                            'last_name VARCHAR(160),' +
-                            'company_id INTEGER,' +
-                            'address VARCHAR(160),' +
-                            'address2 VARCHAR(160),' +
-                            'city VARCHAR(160),' +
-                            'state VARCHAR(10),' +
-                            'zip_code INTEGER,' +
-                            'sex VARCHAR(100),' +
-                            'age INTEGER,' +
-                            'birthdate DATE,' +
-                            'login_id INTEGER,' +
-                            'strava_id INTEGER,' +
-                            'strava_pic TEXT, ' +
-                            'CONSTRAINT "companies.id" FOREIGN KEY ("company_id") REFERENCES companies("id"),' +
-                            'CONSTRAINT "login.id" FOREIGN KEY ("login_id") REFERENCES login("id")' +
-                            ');');
-
-        // Ends the connection to the database when the query is finished.
-        query.on('end', function() {
-          done();
-        });
-
-        // Handles any errors while running the query.
-        query.on('error', function(error) {
-          done();
-          console.log('Error running query:', error);
-          res.status(500).send(error);
-        });
 
         // Formats the user's company to play better with postgres, removing spaces and inserting underscores.
         // Then assigns it the variable name "company" for ease of use.
@@ -153,12 +83,14 @@ router.post('/', function(req, res, next) {
                               [saveUser.email, saveUser.password, saveUser.admin]);
 
         // Pushes the returned information (id and email) into the "results" array and moves to the
-        // next query into the companies table. The each query is daisy-chained so that upon completion
+        // next query of the companies table. Each query is daisy-chained so that upon completion
         // of one, the other begins, this is so that ids from the "companies" and "login" table can
         // be used as foreign keys in the "users" table.
         query.on('row', function(row) {
           results.push(row);
           console.log('results prior to insert into "companies" table ', results);
+
+
           query = client.query('INSERT INTO companies (company_name, benefit_type)' +
                                 'VALUES ($1, $2) RETURNING (id)',
                                 [saveUser.company, saveUser.benefit_type]);

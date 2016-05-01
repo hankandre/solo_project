@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../modules/db');
+var connection = require('../modules/connection');
 var pg = require('pg');
 
 // Pulls all the employees for a company, when an admin user logs in
 router.get('/:id', function(req, res) {
 
   // Connects to the database
-  pg.connect(db, function (err, client, done) {
+  pg.connect(connection, function (err, client, done) {
 
     // Handles any errors when connecting to the database
     if (err) {

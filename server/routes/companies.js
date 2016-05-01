@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../modules/db');
+var connection = require('../modules/connection');
 var pg = require('pg');
 
 // Gets the companies that have signed up with the app, so their employees can specify who they work for
 router.get('/', function(req, res) {
   // Attempts to connect to the database.
-  pg.connect(db, function (err, client, done) {
+  pg.connect(connection, function (err, client, done) {
     // If there's an error connecting to the database it gets logged to the console and then sent to the client.
     if (err) {
       done();
