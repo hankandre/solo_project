@@ -28,7 +28,18 @@ router.get('/:id', function(req, res) {
         else {
           var results = [];
 
-          var query = client.query('SELECT id FROM users WHERE strava_id = '+ STRAVAID +';');
+          var query = client.query('SELECT id FROM users WHERE strava_id = '+ STRAVAID +';' +
+                                    'CREATE TABLE IF NOT EXISTS temp (' +
+                                    'id SERIAL PRIMARY KEY, '+
+                                    'strava_info JSON)');
+                                    // 'users_id INTEGER, ' +
+                                    // 'start_date DATE, ' +
+                                    // 'activity_id INTEGER, ' +
+                                    // 'distance NUMERIC, ' +
+                                    // 'average_speed NUMERIC, ' +
+                                    // 'elevation_gain NUMERIC, ' +
+                                    // 'elapsed_time INTEGER, ' +
+                                    // 'moving_time INTEGER);');
 
           query.on('row', function(row) {
             console.log('Row matching user\'s strava_id: ', row);
@@ -37,22 +48,19 @@ router.get('/:id', function(req, res) {
 
             for (var i = 0; i < payload.length; i++) {
               var activity = payload[i];
-              query = client.query('INSERT INTO strava (' +
-                                    'strava_id, users_id, start_date, activity_id, distance, ' +
-                                    'average_speed, elevation_gain, elapsed_time, moving_time) ' +
-                                    'VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) ' +
-                                    'SELECT * WHERE NOT EXISTS;',
-                                    [STRAVAID, results[0].id, activity.start_date, activity.id, activity.distance,
-                                    activity.average_speed, activity.total_elevation_gain, activity.elapsed_time,
-                                    activity.moving_time]);
+              activity.user_id = results[0].id;
+              query = client.query('INSERT INTO temp (strava_info)' +
+                                    'VALUES ($1)' +
+                                    'RETURNING *;',
+                                    [activity]);
 
               query.on('row', function(row) {
                 done();
                 results.push(row);
-                console.log('results: ', results);
               });
-
+            }
               query.on('end', function() {
+                console.log(payload);
                 done()
               });
 
@@ -61,14 +69,12 @@ router.get('/:id', function(req, res) {
                 console.log('Error running INSERT into "strava" table: ', queryError);
                 res.status(500).send(queryError);
               });
-            }
-            console.log('All the activities! ', results);
           });
 
           query.on('end', function() {
             done();
             console.log('results', results);
-            res.status(200).send(results);
+            // res.status(200).send(results);
           });
 
           query.on('error', function(queryError) {
@@ -76,6 +82,9 @@ router.get('/:id', function(req, res) {
             console.log('Error running query ', queryError);
             res.status(500).send(queryError);
           });
+
+
+          // query = client.query('INSERT INTO strava')
         }
       })
     }

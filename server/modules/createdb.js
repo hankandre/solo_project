@@ -84,7 +84,8 @@ pg.connect(connection, function(err, client, done) {
                           'average_speed NUMERIC, ' +
                           'elevation_gain NUMERIC, ' +
                           'elapsed_time INTEGER, ' +
-                          'moving_time INTEGER);');
+                          'moving_time INTEGER, ' +
+                          'CONSTRAINT "users.id" FOREIGN KEY ("users_id") REFERENCES users("id"));');
 
     query.on('end', function() {
       done();
