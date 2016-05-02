@@ -11,22 +11,8 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
 
   var getUser = function(info) {
     $http.get('/user').then(function(response) {
-      if (response.data.admin) {
-        console.log(response.data);
-        user.response = response.data;
-        $location.path('/admin');
-        getEmployees();
-      } else if (response.data.strava_id != null) {
-        var stravaId = response.data.strava_id;
-        console.log(response.data);
-        user.response = response.data;
-        $location.path('/user');
-        callStrava(stravaId);
-      } else {
-        console.log(response.data);
-        user.response = response.data;
-        $location.path('/user');
-      }
+      console.log(response.data);
+      user.response = response.data;
     });
   }
 
