@@ -3,7 +3,7 @@ var connection = require('./connection');
 
 pg.connect(connection, function(err, client, done) {
   if (err) {
-    console.log('passport error: ', err);
+    console.log('createDB error: ', err);
     return next(err);
   }
   else {
