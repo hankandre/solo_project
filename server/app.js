@@ -8,7 +8,6 @@ var util = require('util');
 var session = require('express-session');
 
 // MODULES
-// var connection = require('./modules/connection');
 var passport = require('./modules/passport');
 var index = require('./routes/index');
 

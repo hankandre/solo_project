@@ -4,7 +4,6 @@ var connection = require('./connection');
 pg.connect(connection, function(err, client, done) {
   if (err) {
     console.log('createDB error: ', err);
-    return next(err);
   }
   else {
     // Begins the query of the database, creating the "login" table if it doesn't already exist.
