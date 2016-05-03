@@ -29,7 +29,6 @@ router.post('/', function(req, res, next) {
     sex: req.body.sex,
     age: req.body.age,
     birthdate: req.body.birthdate,
-    admin: false
   };
 
   // Results from the various queries will be pushed to this empty array.
@@ -48,9 +47,9 @@ router.post('/', function(req, res, next) {
 
       // Inserts user's email, password, and their admin status into the login table, returning
       // their unique id and email address.
-      var query = client.query('INSERT INTO login (email, password, admin)' +
-                                  'VALUES ($1, $2, $3) RETURNING id, email',
-                                  [saveUser.email, saveUser.password, saveUser.admin]);
+      var query = client.query('INSERT INTO login (email, password)' +
+                                  'VALUES ($1, $2) RETURNING id, email',
+                                  [saveUser.email, saveUser.password]);
 
       // The information returned from the database is pushed into the "results" array,
       // another query is then run to retrieve the registrant's company name.

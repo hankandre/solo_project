@@ -31,7 +31,7 @@ router.get('/:id', function(req, res) {
           var query = client.query('SELECT id FROM users WHERE strava_id = '+ STRAVAID +';' +
                                     'CREATE TABLE IF NOT EXISTS temp (' +
                                     'id SERIAL PRIMARY KEY, '+
-                                    'strava_info JSON)');
+                                    'strava_info JSON);');
                                     // 'users_id INTEGER, ' +
                                     // 'start_date DATE, ' +
                                     // 'activity_id INTEGER, ' +

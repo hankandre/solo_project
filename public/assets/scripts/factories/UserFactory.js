@@ -13,6 +13,7 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
     $http.get('/user').then(function(response) {
       console.log(response.data);
       user.response = response.data;
+      callStrava(response.data.strava_id);
     });
   }
 
