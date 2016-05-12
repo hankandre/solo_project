@@ -81,7 +81,7 @@ passport.use('local', new localStrategy ({
 passport.use('strava', new stravaStrategy({
     clientID: STRAVA_CLIENT_ID,
     clientSecret: STRAVA_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:5000/auth/strava/callback"
+    callbackURL: "https://guarded-atoll-32268.herokuapp.com/auth/strava/callback"
   },
   function(accessToken, refreshToken, stravaProfile, done) {
     // asynchronous verification, for effect...
