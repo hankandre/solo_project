@@ -45,7 +45,7 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
     // }
 
     var callStrava = function() {
-     return $http.get('/callStrava/').then(function(response){
+     return $http.get('/callstrava/').then(function(response){
         user.stravaInfo = response.data;
         console.log(user.stravaInfo);
       });
