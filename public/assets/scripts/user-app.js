@@ -13,16 +13,19 @@ userApp.config(['$mdThemingProvider', function($mdThemingProvider){
 
 userApp.config(["$routeProvider", function($routeProvider){
   $routeProvider.
-      when("/user", {
-          templateUrl: '/views/routes/user.html',
-          controller: 'UserController'
-      }).
-      when("/strava", {
-          templateUrl: '/views/routes/strava-data.html',
-          controller: 'UserController'
-      }).
-      when("/admin", {
-          templateUrl: '/views/routes/admin.html',
-          controller: 'UserController'
-      })
+    when("/user", {
+      templateUrl: '/views/routes/user.html',
+      controller: 'UserController'
+    }).
+    when("/strava", {
+      templateUrl: '/views/routes/strava-data.html',
+      controller: 'UserController'
+    }).
+    when("/admin", {
+      templateUrl: '/views/routes/admin.html',
+      controller: 'UserController'
+    }).
+    otherwise({
+      redirectTo: '/user'
+    });
 }]);

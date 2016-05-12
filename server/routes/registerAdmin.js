@@ -1,8 +1,6 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var bodyParser = require('body-parser');
-var pg = require('pg');
-var connection = require('../modules/connection');
+var db = require('../modules/connection');
 var encryptLib = require('../modules/encryption');
 
 // router.get('/', function(req, res, next) {
@@ -11,9 +9,10 @@ var encryptLib = require('../modules/encryption');
 
 // Handles the registration of an admin user; when a company signs up for an account.
 router.post('/', function(req, res, next) {
+  console.log('Register admin req.body ', req.body);
 
   // Builds the object to be saved to the database.
-  var saveUser = {
+  var saveAdmin = {
     email: req.body.email,
     password: encryptLib.encryptPassword(req.body.password),
     first_name: req.body.firstname,
@@ -32,122 +31,34 @@ router.post('/', function(req, res, next) {
     admin: true
   };
 
-  // Creates the array to push the results of the queries to that will eventually be sent to the client.
-  var results = [];
+  db.tx(function() {
 
-  // Opens a connection to the database.
-  pg.connect(connection, function(err, client, done) {
-
-    // Handles any errors while connecting to the database.
-    if (err) {
-      done();
-      console.log('Error connecting to DB ', err);
-      res.status(500).send(err)
-    }
-    else {
-
-
-        // Formats the user's company to play better with postgres, removing spaces and inserting underscores.
-        // Then assigns it the variable name "company" for ease of use.
-        var company = saveUser.company.split(' ').join('_').toLowerCase();
-
-        // Creates a specific table for the company's commute data to be input into.
-        query = client.query('CREATE TABLE IF NOT EXISTS ' + company  +
-                              ' ("id" serial, ' +
-                              '"login_id" integer, ' +
-                              '"users_id" integer, ' +
-                              '"companies_id" integer, ' +
-                              '"mode_of_transportation" varchar(160), ' +
-                              '"miles_commuted" numeric, ' +
-                              '"date" date, ' +
-                              'PRIMARY KEY ("id"), ' +
-                              'CONSTRAINT "login_id" FOREIGN KEY ("login_id") REFERENCES "public"."login"("id"), ' +
-                              'CONSTRAINT "users_id" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id"), ' +
-                              'CONSTRAINT "companies_id" FOREIGN KEY ("companies_id") REFERENCES "public"."companies"("id"));');
-
-        // Ends the connection to the database when the query is finished.
-        query.on('end', function() {
-          done();
-        });
-
-        // Handles any errors while running the query.
-        query.on('error', function(error) {
-          done();
-          console.log('Error running CREATE TABLE query ', error);
-          res.status(500).send(error);
-        });
-
-        // Now that the tables are created, it's time to insert the admin's information.
-        query = client.query('INSERT INTO login (email, password, admin)' +
-                              'VALUES ($1, $2, $3) RETURNING id, email',
-                              [saveUser.email, saveUser.password, saveUser.admin]);
-
-        // Pushes the returned information (id and email) into the "results" array and moves to the
-        // next query of the companies table. Each query is daisy-chained so that upon completion
-        // of one, the other begins, this is so that ids from the "companies" and "login" table can
-        // be used as foreign keys in the "users" table.
-        query.on('row', function(row) {
-          results.push(row);
-          console.log('results prior to insert into "companies" table ', results);
-
-
-          query = client.query('INSERT INTO companies (company_name, benefit_type)' +
-                                'VALUES ($1, $2) RETURNING (id)',
-                                [saveUser.company, saveUser.benefit_type]);
-
-          query.on('row', function(row) {
-            results.push(row)
-            console.log('companies results ', results);
-            console.log('results prior to insert into "users" table ', results);
-            var query = client.query('INSERT INTO users (first_name, last_name, company_id,' +
-                                  'address, address2, zip_code, city, state, age, birthdate, login_id) ' +
-                                  'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING (first_name, ' +
-                                  'last_name);',
-                                  [saveUser.first_name, saveUser.last_name, results[1].id,
-                                  saveUser.address, saveUser.address2, saveUser.zip_code,
-                                  saveUser.city, saveUser.state, saveUser.age, saveUser.birthdate,
-                                  results[0].id]);
-
-            query.on('row', function(row) {
-              results.push(row);
-              console.log('admin user registration: ', results);
-            });
-
-            query.on('end', function() {
-              done();
-            });
-
-            query.on('error', function(error) {
-              console.log('Error running admin registration query:', error);
-              done();
-              res.send(error);
-            });
-          });
-
-          query.on('end', function() {
-            done();
-          });
-
-          query.on('error', function(error) {
-            console.log('Error running company query:', error);
-            done();
-            res.send(error);
-          });
-          console.log('login results: ', results);
-        });
-
-        query.on('end', function() {
-          done();
-          res.send(results);
-        });
-
-        query.on('error', function(error) {
-          console.log('Error running login query:', error);
-          done();
-          res.send(error);
-        });
-      }
-  });
+    var queries = [
+      this.none('INSERT INTO companies (company_name, benefit_type, company_size) VALUES ($1, $2, $3)',
+        [saveAdmin.company, saveAdmin.benefit_type, saveAdmin.company_size]),
+      this.none('INSERT INTO login (email, password, admin) VALUES ($1, $2, $3);',
+      [saveAdmin.email, saveAdmin.password, saveAdmin.admin]),
+      this.many('INSERT INTO users (first_name, last_name, company_id, address, address2, zip_code, city, state, age, ' +
+        'login_id) VALUES ($1, $2, (SELECT id FROM companies WHERE company_name = $3), $4, $5, $6, $7, $8, $9, ' +
+        '(SELECT id FROM login WHERE email = $10)) RETURNING first_name, last_name;',
+        [saveAdmin.first_name, saveAdmin.last_name, saveAdmin.company, saveAdmin.address,
+        saveAdmin.address2, saveAdmin.zip_code, saveAdmin.city, saveAdmin.state, saveAdmin.age, saveAdmin.email]),
+      this.none('CREATE TABLE $1~ (id SERIAL PRIMARY KEY, users_id INTEGER, companies_id INTEGER, ' +
+        'strava_id INTEGER, commute_date DATE, mode_of_transportation VARCHAR(160), miles_commuted NUMERIC,' +
+        'CONSTRAINT "users.id" FOREIGN KEY ("users_id") REFERENCES users("id"));',
+        [saveAdmin.company])
+    ]
+    
+    return this.batch(queries);
+  })
+    .then(function (data) {
+      console.log('insert data', data);
+      res.status(200).end();
+    })
+    .catch(function (error) {
+      console.log('Error inserting admin ', error);
+      res.status(500).end()
+    });
 });
 
 module.exports = router;

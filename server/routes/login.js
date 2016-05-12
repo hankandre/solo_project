@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 // if they are admin, and to the normal home if they're any other user.
 router.post('/', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
+    console.log('login "info" ', info);
     if (err) {
       console.log('passport error: ', err);
       return next(err);
@@ -22,7 +23,7 @@ router.post('/', function(req, res, next) {
           return next(err);
         }
         else if (user.admin) {
-          return res.redirect('../views/admin-home.html');
+          return res.redirect('../views/home.html');
         }
         else {
           return res.redirect('../views/home.html');

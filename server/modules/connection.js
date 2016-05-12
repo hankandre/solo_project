@@ -1,5 +1,6 @@
 // connection.js
 var connectionString = '';
+var pgp = require('pg-promise')();
 
 if(process.env.DATABASE_URL != undefined) {
     connectionString = process.env.DATABASE_URL + 'ssl';
@@ -7,4 +8,6 @@ if(process.env.DATABASE_URL != undefined) {
     connectionString = 'postgres://localhost:5432/commutr';
 }
 
-module.exports = connectionString;
+var db = pgp(connectionString);
+
+module.exports = db;

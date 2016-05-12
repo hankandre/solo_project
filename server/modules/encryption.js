@@ -7,7 +7,6 @@ var publicAPI = {
     return bcrypt.hashSync(password, salt);
   },
   comparePassword: function(candidatePassword, storedPassword) {
-    console.log('comparing passwords. candidatePassword ', candidatePassword, 'storedPassword ', storedPassword);
     return bcrypt.compareSync(candidatePassword, storedPassword);
   }
 };

@@ -51,7 +51,7 @@ myApp.controller('UserRegistrationController', ['$scope', '$window', 'DataServic
 
     DataService.getCompanies();
     $scope.companies = DataService.companies;
-    console.log(DataService.companies.response);
+    console.log($scope.companies);
 
     // $scope.companies = DataService.companies;
 

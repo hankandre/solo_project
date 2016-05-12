@@ -3,17 +3,20 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
   var employees = {};
   var loaded = false;
 
-  var getStrava = function() {
-    $http.get('/auth/strava').then(function(response) {
-      console.log(response);
-    })
-  }
+  // var getStrava = function() {
+  //   $http.get('/auth/strava').then(function(response) {
+  //     console.log(response);
+  //   })
+  // }
 
-  var getUser = function(info) {
-    $http.get('/user').then(function(response) {
+  var getUser = function() {
+    return $http.get('/user').then(function(response) {
       console.log(response.data);
       user.response = response.data;
-      callStrava(response.data.strava_id);
+      if (response.data.admin) {
+        $location.path('/admin');
+        getEmployees();
+      }
     });
   }
 
@@ -29,8 +32,7 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
 
     var getEmployees = function() {
       console.log('getEmployees ', user);
-      var company = user.response.company_name.split(' ').join('_').toLowerCase()
-      $http.get('/employees/' + company + '').then(function(response) {
+      return $http.get('/employees').then(function(response) {
         employees.response = response.data;
       });
     }
@@ -42,8 +44,8 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
     //   });
     // }
 
-    var callStrava = function(id) {
-      $http.get('/callStrava/' + id + '').then(function(response){
+    var callStrava = function() {
+     return $http.get('/callStrava/').then(function(response){
         user.stravaInfo = response.data;
         console.log(user.stravaInfo);
       });
@@ -51,7 +53,7 @@ userApp.factory("UserService", ["$http","$window", "$location", function($http, 
 
     return {
       user: user,
-      getStrava: getStrava,
+      callStrava: callStrava,
       getUser: getUser,
       employees: employees,
       loaded : loaded,

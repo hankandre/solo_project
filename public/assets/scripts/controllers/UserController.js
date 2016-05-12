@@ -1,6 +1,7 @@
 userApp.controller('UserController', ['$scope', 'UserService', '$mdDialog', '$filter', function($scope, UserService, $mdDialog, $filter) {
 
-    UserService.getUser();
+  UserService.getUser();
+  UserService.callStrava();
 
 
     $scope.person = {

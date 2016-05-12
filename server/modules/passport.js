@@ -2,8 +2,7 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var stravaStrategy = require('passport-strava-oauth2').Strategy;
 var encryptLib = require('./encryption');
-var connection = require('./connection');
-var pg = require('pg');
+var db = require('./connection');
 
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
@@ -17,72 +16,77 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   console.log('deserializeUser id ', id);
 
-  pg.connect(connection, function(err, client) {
-    if(err) {
-      done();
-      console.log('Error connecting to DB while running deserializeUser ', err);
-    } else {
-      var user = {};
-      // JOIN users ON (login.id = users.login_id) JOIN companies ON (users.company_id = companies.id) WHERE
-      var query = client.query('SELECT login.id AS login_id, companies.id AS company_id, users.id AS users_id, *' +
-                              ' FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1', [id]);
+  db.one('SELECT login.id AS login_id, companies.id AS company_id, users.id AS users_id, * FROM login ' +
+    'JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1',
+    [id])
+    .then(function (data) {
+      done(null, data);
+    })
+    .catch(function (error) {
+      console.log('Error deserializing user ', error);
+      done(null, false);
+    });
 
-      query.on('row', function(row) {
-        console.log('user object ', row);
-        user = row;
-        done(null, user)
-      });
-
-      query.on('end', function() {
-        client.end();
-      });
-    }
-  });
+  // pg.connect(connection, function(err, client) {
+  //   if(err) {
+  //     done();
+  //     console.log('Error connecting to DB while running deserializeUser ', err);
+  //   } else {
+  //     var user = {};
+  //     // JOIN users ON (login.id = users.login_id) JOIN companies ON (users.company_id = companies.id) WHERE
+  //     var query = client.query('SELECT login.id AS login_id, companies.id AS company_id, users.id AS users_id, *' +
+  //                             ' FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1', [id]);
+  //
+  //     query.on('row', function(row) {
+  //       console.log('user object ', row);
+  //       user = row;
+  //       done(null, user)
+  //     });
+  //
+  //     query.on('end', function() {
+  //       client.end();
+  //     });
+  //   }
+  // });
 });
 
 passport.use('local', new localStrategy ({
   passReqToCallback: true,
   usernameField: 'email'
   }, function(req, email, password, done) {
-    pg.connect(connection, function(err, client) {
-      if (err) {
-        console.log('Error connecting to db ', err);
-      } else {
-        console.log('Called local sql Passport strategy.', email);
 
-        var user = {};
-        var query = client.query('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.email = $1', [email]);
+  db.one('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON ' +
+    '(users.company_id = companies.id) WHERE login.email = $1', [email])
+    .then(function (user) {
 
-        query.on('row', function(row) {
-          console.log('localStrategy row ', row);
-          user = row;
-
-          if(encryptLib.comparePassword(password, user.password)) {
-            console.log('Password matched!');
-            done(null, user);
-          } else {
-            console.log('No password matched.');
-            done(null, false, {message: 'Incorrect credentials'});
-          }
-        });
-
-        query.on('end', function() {
-          client.end();
-        });
+      if(encryptLib.comparePassword(password, user.password)) {
+        console.log('Password matched!');
+        done(null, user);
       }
+      else {
+        console.log('No password matched.');
+        done(null, false, {message: 'Incoorect credentials'});
+      }
+    })
+    .catch(function (error) {
+      console.log('error using passport local strategy ', error);
+      done(null, false);
     });
+
 }));
 
 
 passport.use('strava', new stravaStrategy({
     clientID: STRAVA_CLIENT_ID,
     clientSecret: STRAVA_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:5000/auth/strava/callback"
+    callbackURL: "guarded-atoll-32268.herokuapp.com/auth/strava/callback"
   },
   function(accessToken, refreshToken, stravaProfile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
+
       console.log(stravaProfile);
+
       var stravaInfo = {
         id: stravaProfile._json.id,
         email: stravaProfile._json.email,
@@ -91,56 +95,24 @@ passport.use('strava', new stravaStrategy({
 
       console.log('stravaInfo ', stravaInfo);
 
-      pg.connect(connection, function(err, client, finished) {
-        if (err) {
-          console.log('Error connecting to db for Strava input', err);
-        } else {
-          var loginInfo = {};
-          var query = client.query('SELECT id AS login_id, * FROM login WHERE email = $1', [stravaInfo.email]);
-
-          query.on('row', function(row) {
-            loginInfo = row;
-            console.log('strava strategy SELECT login, ', loginInfo);
-            query = client.query('UPDATE users ' +
-                                  'SET strava_id = $2, ' +
-                                  'strava_pic = $3 ' +
-                                  'WHERE login_id = $1 ' +
-                                  'RETURNING strava_id, strava_pic;',
-                                  [loginInfo.id, stravaInfo.id, stravaInfo.pic]);
-
-            query.on('row', function(row) {
-              console.log('Strava insert data ', row);
-              finished();
+      db.none('UPDATE users SET strava_id = $1, strava_pic = $2 WHERE login_id = (SELECT id FROM login WHERE email = $3)',
+        [stravaInfo.id, stravaInfo.pic, stravaInfo.email])
+        .then(function () {
+          console.log('Success entering strava data');
+          db.one('SELECT * FROM login JOIN users on (login.id = users.login_id) WHERE email = $1;',
+          [stravaInfo.email])
+            .then(function (data) {
+              console.log('Success finding strava user!');
+              done(null, data);
+            })
+            .catch(function (error) {
+              console.log('Error finding strava user.', error);
             });
-
-            query.on('end', function() {
-              finished();
-            });
-
-            query.on('error', function(error) {
-              console.log('Error inserting into Strava table ', error);
-              finished();
-            });
-          });
-
-          query.on('end', function() {
-            finished();
-            done(null, loginInfo);
-          });
-
-          query.on('error', function(error) {
-            console.log('Error retreiving info for Strava match ', error);
-            finished();
-          });
-
-        }
-      });
-      // To keep the example simple, the user's Strava profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Strava account with a user record in your database,
-      // and return that user instead.
+        })
+        .catch(function (error) {
+          console.log('Error inputing strava data ', error);
+        });
     });
-  }
-));
+}));
 
 module.exports = passport;

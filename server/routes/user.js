@@ -5,7 +5,7 @@ var passport = require('passport');
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function(req, res) {
     // check if logged in
-    console.log(req.user);
+    console.log('req.user ', req.user);
     if(req.isAuthenticated()) {
         // send back user object from database
         res.send(req.user);

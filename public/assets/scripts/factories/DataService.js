@@ -40,8 +40,7 @@ myApp.factory("DataService", ["$http","$window", "$location", function($http, $w
     };
 
     var getEmployees = function() {
-      var company = userData.response.company_name.split(' ').join('_').toLowerCase()
-      $http.get('/employees/' + company + '').then(function(response) {
+      return $http.post('/employees/', company).then(function(response) {
         employees.response = response.data;
       });
     }
