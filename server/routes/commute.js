@@ -14,8 +14,8 @@ router.post('/', function(req, res) {
     miles: req.body.miles
   };
 
-  db.one('INSERT INTO $6~ (users_id, companies_id, mode_of_transportation, miles_commuted, date)' +
-          'VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;', [req.user.users_id, req.user.company_id,
+  db.one('INSERT INTO $6~ (users_id, companies_id, mode_of_transportation, miles_commuted, commute_date)' +
+          'VALUES ($1, $2, $3, $4, $5) RETURNING *;', [req.user.users_id, req.user.company_id,
           commute.modeOfTransportation, commute.miles, commute.date, req.user.company_name])
     .then(function (data) {
       console.log('Insert into commute table ', data);
@@ -24,7 +24,7 @@ router.post('/', function(req, res) {
     .catch(function (error) {
       console.log('Error doing insert into commute table ', error);
       res.status(500).end();
-    })
+    });
 
   // // Connects to the database
   // pg.connect(connection, function(err, client, done) {

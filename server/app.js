@@ -3,7 +3,6 @@ var express = require('express');
 var app = express();
 require('dotenv').config();
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 var util = require('util');
 var session = require('express-session');
 
@@ -17,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Passport and cookie configuration, for authentication
 app.use(session({
-  secret: 'secret',
+  secret: 'anything',
   key: 'user',
   resave: 'true',
   saveUninitialized: false,

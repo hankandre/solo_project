@@ -20,7 +20,8 @@ passport.deserializeUser(function(id, done) {
     'JOIN users ON (users.login_id = login.id) JOIN companies ON (users.company_id = companies.id) WHERE login.id = $1',
     [id])
     .then(function (data) {
-      done(null, data);
+      var user = data;
+      done(null, user);
     })
     .catch(function (error) {
       console.log('Error deserializing user ', error);
@@ -58,6 +59,7 @@ passport.use('local', new localStrategy ({
   db.one('SELECT * FROM login JOIN users ON (users.login_id = login.id) JOIN companies ON ' +
     '(users.company_id = companies.id) WHERE login.email = $1', [email])
     .then(function (user) {
+      console.log(user);
 
       if(encryptLib.comparePassword(password, user.password)) {
         console.log('Password matched!');
@@ -65,7 +67,7 @@ passport.use('local', new localStrategy ({
       }
       else {
         console.log('No password matched.');
-        done(null, false, {message: 'Incoorect credentials'});
+        done(null, false, {message: 'Incorrect credentials'});
       }
     })
     .catch(function (error) {
@@ -79,7 +81,7 @@ passport.use('local', new localStrategy ({
 passport.use('strava', new stravaStrategy({
     clientID: STRAVA_CLIENT_ID,
     clientSecret: STRAVA_CLIENT_SECRET,
-    callbackURL: "guarded-atoll-32268.herokuapp.com/auth/strava/callback"
+    callbackURL: "http://127.0.0.1:5000/auth/strava/callback"
   },
   function(accessToken, refreshToken, stravaProfile, done) {
     // asynchronous verification, for effect...
@@ -95,6 +97,7 @@ passport.use('strava', new stravaStrategy({
 
       console.log('stravaInfo ', stravaInfo);
 
+
       db.none('UPDATE users SET strava_id = $1, strava_pic = $2 WHERE login_id = (SELECT id FROM login WHERE email = $3)',
         [stravaInfo.id, stravaInfo.pic, stravaInfo.email])
         .then(function () {
@@ -102,8 +105,9 @@ passport.use('strava', new stravaStrategy({
           db.one('SELECT * FROM login JOIN users on (login.id = users.login_id) WHERE email = $1;',
           [stravaInfo.email])
             .then(function (data) {
+              var user = data;
               console.log('Success finding strava user!');
-              done(null, data);
+              done(null, user);
             })
             .catch(function (error) {
               console.log('Error finding strava user.', error);
