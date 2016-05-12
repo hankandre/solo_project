@@ -1,5 +1,7 @@
 var db = require('./connection');
 
+console.log('Inside "createdb"');
+
 db.tx(function () {
   var queries = [
     this.none('CREATE TABLE IF NOT EXISTS login (id SERIAL PRIMARY KEY, email VARCHAR(160), password VARCHAR(160), ' +
