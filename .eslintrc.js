@@ -8,16 +8,19 @@ module.exports = {
     "plugins": [
         "angular"
     ],
-    "extends": "eslint:recommended",
-    "globals": [
+    "extends": [
+        "eslint:recommended",
         "angular"
-    ],
+        ],
+    "globals": {
+        "angular": true
+    },
     "parserOptions": {
         "sourceType": "module"
     },
     "rules": {
         "indent": [
-            "error",
+            2,
             "tab"
         ],
         "linebreak-style": [

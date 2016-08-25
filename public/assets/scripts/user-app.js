@@ -1,4 +1,4 @@
-var userApp = angular.module('userApp', ['ngMaterial', 'ngMessages', 'md.data.table', 'ngRoute']);
+var userApp = angular.module('app', ['ngMaterial', 'ngMessages', 'md.data.table', 'ngRoute']);
 
 userApp.config(['$mdThemingProvider', function($mdThemingProvider){
   $mdThemingProvider.theme('default')
