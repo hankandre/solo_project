@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/app.js"
+    "start": "node server/app.js",
+    "babel": "babel ./{public/,server/}"
   },
   "author": "Hank Andre",
   "license": "ISC",
@@ -37,5 +38,8 @@
     "request": "^2.72.0",
     "strava-v3": "^1.10.0",
     "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "eslint-plugin-angular": "^1.3.1"
   }
 }
