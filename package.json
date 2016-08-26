@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/app.js",
-    "babel": "babel ./{public/,server/}",
+    "babel": "babel ./{public/,server/}"
   },
   "author": "Hank Andre",
   "license": "ISC",

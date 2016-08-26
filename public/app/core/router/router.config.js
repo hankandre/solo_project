@@ -6,7 +6,14 @@
 	routerConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 	function routerConfig($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/home');
+		$urlRouterProvider.otherwise('/');
 
+		$stateProvider
+			.state('home', {
+				url: '/',
+				templateUrl: '/app/home/home.html',
+				controller: 'HomeController',
+				controllerAs: 'home'
+			});
 	}
 })();

@@ -2,6 +2,7 @@
 	'use strict';
 	angular
 		.module('app.core', [
-			'app.theme'
+			'app.theme',
+			'app.router'
 		]);
 })();
