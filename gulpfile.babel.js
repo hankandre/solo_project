@@ -9,7 +9,7 @@ let $ = gulpLoadPlugins({
 });
 
 /**
- * Gulp Watches
+ * Gulp Watch
  */
 
 let watcher = gulp.watch('public/app/**/*.js', ['inject']);
