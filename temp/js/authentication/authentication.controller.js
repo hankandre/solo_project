@@ -1,7 +1,7 @@
-(function() {
-	angular
-		.module('app.home')
-		.controller('HomeController', HomeController);
+'use strict';
+
+(function () {
+	angular.module('app.auth').controller('HomeController', HomeController);
 
 	HomeController.$inject = ['$log'];
 

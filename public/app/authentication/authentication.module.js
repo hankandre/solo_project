@@ -1,6 +1,6 @@
 (function() {
 	angular
-		.module('app.home', [
+		.module('app.auth', [
 			
 		]);
 })();
