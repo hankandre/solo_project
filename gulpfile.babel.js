@@ -2,7 +2,11 @@
 
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
-let $ = gulpLoadPlugins({lazy: true});
+import del from 'del';
+let $ = gulpLoadPlugins({
+    DEBUG: false,
+    lazy: true
+});
 
 /**
  * Gulp Watches
@@ -22,21 +26,24 @@ gulp.task('default', ['help']);
 
 gulp.task('help', $.taskListing);
 
-gulp.task('babel', (done) => {
+gulp.task('clean:temp', (done) => {
+    return clean('temp', done);
+});
 
-    gulp
+gulp.task('babel', () => {
+
+   return gulp
         .src('public/app/**/*.js')
         .pipe($.babel({
             presets: ['es2015']
         }))
         .pipe(gulp.dest('temp/js'));
     
-    done();
 });
 
-gulp.task('inject', ['babel'], (done) => {
-    
-    gulp
+gulp.task('inject', ['clean:temp', 'babel'], () => {
+
+   return gulp
         .src('public/index.html')
         .pipe($.inject(
             gulp.src('temp/js/**/*.js', {read: true})
@@ -44,6 +51,28 @@ gulp.task('inject', ['babel'], (done) => {
         ))
         .pipe(gulp.dest('public/'));
     
-    done();
 });
 
+/**
+ * Utility Functions
+ */
+
+function log(msg) {
+        if(typeof(msg) === 'object') {
+                for (var item in msg) {
+                        if (msg.hasOwnProperty(item)) {
+                                $.util.log($.util.colors.cyan(msg[item]));
+                        }
+                }
+        } else {
+                $.util.log($.util.colors.cyan(msg));
+        }
+}
+
+function clean(path, done) {
+    log('Cleaning: ' + $.util.colors.red(path));
+
+    del(path);
+    
+    return done();
+}
