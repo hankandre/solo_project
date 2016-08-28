@@ -34,18 +34,18 @@
 
       <div class="login-form">
 
-        <form name="userLogin" action="/login" method="post">
+        <form name="userLogin" ng-submit="auth.form(userLogin.$valid)">
           <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
               <label>Email</label>
-              <input name="email" ng-model="user.email" type="text" required>
+              <input name="email" ng-model="auth.login.email" type="text" required>
             </md-input-container>
           </div>
 
           <div layout-gt-sm="row">
             <md-input-container class="md-block" flex-gt-sm>
               <label>Password</label>
-              <input name="password" ng-model="user.password" type="password" required>
+              <input name="password" ng-model="auth.login.password" type="password" required>
             </md-input-container>
           </div>
 
