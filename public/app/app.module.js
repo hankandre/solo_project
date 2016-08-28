@@ -2,6 +2,8 @@
 	'use strict';
 	angular.module('app', [
 		'app.core',
-		'app.auth'
+		'app.home',
+		'app.auth',
+		'app.registration'
 	]);
 })();

@@ -1,13 +1,13 @@
 (function() {
+	'use strict';
 	angular
 		.module('app.auth')
-		.controller('HomeController', HomeController);
+		.controller('AuthenticationController', AuthenticationController);
 
-	HomeController.$inject = ['$log'];
+	AuthenticationController.$inject = ['$log'];
 
-	function HomeController($log) {
-		var home = this;
-		home.world = 'World!';
-		$log.log('Home is working');
+	function AuthenticationController($log) {
+		let auth = this;
+		auth.test = 'Auth!';
 	}
 })();

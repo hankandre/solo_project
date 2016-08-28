@@ -1,0 +1,177 @@
+<p>
+    Hello {{reg.test}}
+</p>
+
+
+<!--<md-content layout-padding class="md-accent">
+    <header layout-gt-md="row" layout-align="space-around center" ng-controller="UserRegistrationController">
+    <a href="/views/index.html"><img id="logo" src="../assets/images/logo19.png" alt="logo" /></a>
+    <h1 class="md-display-2">Commutr</h1>
+    <md-menu>
+        <md-button aria-label="Open User Menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            <img ng-src="../assets/images/icons/ic_directions_bike_black_24dp_2x.png" alt=" image icon" />
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+            <md-button href="/views/index.html">
+                Login
+            </md-button>
+            </md-menu-item>
+
+            <md-menu-item>
+            <md-button href="/views/register-admin.html">
+                Register a Company
+            </md-button>
+            </md-menu-item>
+
+            <md-menu-item>
+            <md-button href="/views/register-user.html">
+                Register a New User
+            </md-button>
+            </md-menu-item>
+        </md-menu-content>
+        </md-menu>
+    </header>
+
+    <div class="user-registration-form" ng-controller="UserRegistrationController">
+        <div layout-align="center center" layout="column">
+            <h3 class="md-title">User Registration</h3>
+        </div>
+        <form name="userRegistrationForm" ng-submit="submit(user)" novalidate>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>First Name</label>
+            <input name="firstname" type="text" ng-model="user.first_name" minlength="2" required>
+            <div ng-messages="userRegistrationForm.firstname.$error" multiple>
+                <p ng-message="required">Please fill out your first name.</p>
+                <p ng-message="minlength">That was too short. Please enter your first name.</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Last Name</label>
+            <input name="lastname" type="text" ng-model="user.last_name" minlength="2" required>
+            <div ng-messages="userRegistrationForm.lastname.$error" multiple>
+                <p ng-message="required">Please fill out your last name.</p>
+                <p ng-message="minlength">That was too short. Please enter your last name.</p>
+            </div>
+            </md-input-container>
+        </div>
+
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Age</label>
+            <input name="age" type="number" ng-model="user.age" required>
+            <div ng-messages="userRegistrationForm.age.$error">
+                <p ng-message="required">Tell us how old you are. We won't tell. Promise.</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Sex</label>
+            <md-select ng-value="sex" type="text" ng-model="user.sex" required>
+                <md-option> Male </md-option>
+                <md-option> Female </md-option>
+                <md-option> Prefer Not to Say </md-option>
+            </md-select>
+            <div ng-messages="userRegistrationForm.sex.$error">
+                <p ng-message="required">It's helpful to know your sex<br />
+                If you'd rather not tell us, just choose, "Prefer Not to Say"</p>
+            </div>
+            </md-input-container>
+
+            </md-input-container>
+            <md-datepicker name="birthdate" ng-model="user.birthdate" type="date" md-placeholder="Birthdate" required>
+            <div ng-messages="userRegistrationForm.birthdate.$error" multiple>
+                <p ng-message="valid">The entered value is not a date!</p>
+                <p ng-message="required">This date is required!</p>
+            </div>
+            </md-datepicker>
+        </div>
+
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>email</label>
+            <input name="email" type="email" ng-model="user.email" required>
+            <div ng-messages="userRegistrationForm.email.$error" multiple>
+                <p ng-message="required">Your email is required.</p>
+                <p ng-message="email">Please enter a valid email address!</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Company</label>
+            <md-select ng-model="user.company" name="company" type="text">
+                <md-option ng-repeat="company in companies.response" name="company" ng-value="{{company.id}}" required> {{company.company_name}} </md-option>
+            </md-select>
+            <div ng-messages="userRegistrationForm.company.$error">
+                <p ng-message="required">Please let us know who you work for; so we can get you benefits!</p>
+            </div>
+            </md-input-container>
+        </div>
+
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Address</label>
+            <input name="address" type="text" ng-model="user.address" minlength="5" md-maxlength="30" required>
+            <div ng-messages="userRegistrationForm.address.$error" multiple>
+                <p ng-message="required">Where in the world do you live?</p>
+                <p ng-message="minlength">Too short. Pretty sure that's not a real place</p>
+                <p ng-message="maxlength">Too long. Are you <i>sure</i> that's a place?</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Address 2</label>
+            <input name="address2" type="text" ng-model="user.address2">
+            </md-input-container>
+        </div>
+
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>City</label>
+            <input name="city" type="text" ng-model="user.city" required>
+            <div ng-messages="userRegistrationForm.city.$error">
+                <p ng-message="required">If you have an address you must live somewhere!</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>State</label>
+            <md-select name="state" type="text" ng-model="user.state">
+                <md-option ng-repeat="state in states"  value="{{state.abbrev}}" required>{{state.abbrev}}</md-option>
+            </md-select>
+            <div ng-messages="userRegistrationForm.city.$error">
+                <p ng-message="required">Please choose a state.</p>
+            </div>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+            <label>Zip Code</label>
+            <input type="number" name="zip" ng-model="user.zip" minlength="5" required>
+            <div ng-messages="userRegistrationForm.zip.$error">
+                <p ng-message="required">We promise not to snail-mail you; we just need your zip.</p>
+                <p ng-message="minlength">That's too short. Zip codes usually have a few more numbers</p>
+            </div>
+            </md-input-container>
+        </div>
+
+        <div layout-gt-sm="column" layout-align="center center">
+            <md-input-container md-colspan="2">
+            <label>Password</label>
+            <input name="password" type="password" ng-model="user.password" minlength="1" md-maxlength="12" required>
+            <div ng-messages="userRegistrationForm.password.$error">
+                <p ng-message="required">You kinda need a password</p>
+                <p ng-message="minlength">A password less than one character isn't actually a password.</p>
+                <p ng-message="md-maxlength">Too long! That's too secure we don't even know what to do!</p>
+            </div>
+            </md-input-container>
+        </div>
+
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-button type="submit" ng-disabled="userRegistrationForm.$invalid" class="md-raised md-primary">SUBMIT</md-button>
+        </section>
+        </form>
+    </div>
+</md-content>-->

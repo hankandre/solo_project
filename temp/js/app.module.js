@@ -3,5 +3,5 @@
 (function () {
 	'use strict';
 
-	angular.module('app', ['app.core', 'app.auth']);
+	angular.module('app', ['app.core', 'app.home', 'app.auth', 'app.registration']);
 })();

@@ -26,8 +26,8 @@ router.use('/callstrava', callStrava);
 
 // CATCH-ALL ROUTE
 router.get('/*', function(req, res) {
-  var file = req.params[0] || '/index.html';
-  res.sendFile(path.join(__dirname, '../../public/', file));
+  var file = req.params[0] || 'public/index.html';
+  res.sendFile(path.join(__dirname, '../../', file));
 });
 
 module.exports = router;

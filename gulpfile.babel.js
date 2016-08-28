@@ -14,7 +14,7 @@ let $ = gulpLoadPlugins({
 
 let watcher = gulp.watch('public/app/**/*.js', ['inject']);
 watcher.on('change', function(event) {
-  console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+  log('File ' + $.util.colors.red(event.path) + ' was ' + $.util.colors.red(event.type) + ', running tasks...');
 });
 
 
