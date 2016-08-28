@@ -50,7 +50,12 @@ gulp.task('templateCache', () => {
 
 	 return gulp
 				.src('public/app/**/*.html')
-				.pipe($.htmlmin({collapseWhitespace: true}))
+				.pipe($.htmlmin({
+					collapseWhitespace: true,
+					removeComments: true,
+					caseSensitive: true,
+					collapseInlineTagWhitespace: true
+				}))
 				.pipe($.angularTemplatecache(
 						'templates.js',
 						{
