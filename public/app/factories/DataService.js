@@ -1,15 +1,9 @@
+
+
 myApp.factory("DataService", ["$http","$window", "$location", function($http, $window, $location){
   var user = {};
   var userData = {};
-  var companies = {};
   var employees = {};
-
-    var getCompanies = function() {
-      $http.get('/companies').then(function(response) {
-        companies.response = response.data;
-        console.log(companies);
-      });
-    }
 
     var getUser = function(user) {
       $http.get('/user').then(function(response) {
