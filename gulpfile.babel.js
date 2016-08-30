@@ -33,6 +33,22 @@ gulp.task('clean:temp', (done) => {
 		return clean('temp', done);
 });
 
+// Lints my code in both the server/ and public/ directories. Prevents other tasks from running
+// if an error is found.
+gulp.task('lint', () => {
+	return gulp
+		.src([
+			'**/*.js', 
+			'!public/vendors/**', 
+			'!node_modules/**',
+			'./*.js'])
+		.pipe($.eslint({
+			fix: true
+		}))
+		.pipe($.eslint.format())
+		.pipe($.eslint.failAfterError());
+});
+
 // Babels all my code and puts in in the temp/js directory
 gulp.task('babel', () => {
 
@@ -79,6 +95,15 @@ gulp.task('inject', ['clean:temp', 'babel', 'templateCache'], () => {
 				.pipe(gulp.dest('public/'));
 		
 });
+
+gulp.task('nodemon', () => {
+
+	return $.nodemon({
+		script: 'server/app.js',
+		ext: 'html js',
+
+	})
+})
 
 
 /**
