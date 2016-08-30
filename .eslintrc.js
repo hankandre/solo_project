@@ -6,14 +6,12 @@ module.exports = {
         "node": true
     },
     "plugins": [
-        "angular"
     ],
     "extends": [
         "eslint:recommended",
-        "angular"
         ],
     "globals": {
-        "angular": true
+    
     },
     "parserOptions": {
         "sourceType": "module"
@@ -34,6 +32,7 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": "off"
     }
 };

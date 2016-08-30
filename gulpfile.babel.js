@@ -42,9 +42,7 @@ gulp.task('lint', () => {
 			'!public/vendors/**', 
 			'!node_modules/**',
 			'./*.js'])
-		.pipe($.eslint({
-			fix: true
-		}))
+		.pipe($.eslint())
 		.pipe($.eslint.format())
 		.pipe($.eslint.failAfterError());
 });

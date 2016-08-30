@@ -4,27 +4,27 @@ var db = require('../modules/connection');
 // Handles the posting of user's commute data to the database
 router.post('/', function(req, res) {
   // Builds the object that will be posted
-  var commute = {
-    user_id : req.body.users_id,
-    login_id: req.body.login_id,
-    company_id: req.body.company_id,
-    company_name: req.body.company_name,
-    date: req.body.date,
-    modeOfTransportation: req.body.mode,
-    miles: req.body.miles
-  };
+	var commute = {
+		user_id : req.body.users_id,
+		login_id: req.body.login_id,
+		company_id: req.body.company_id,
+		company_name: req.body.company_name,
+		date: req.body.date,
+		modeOfTransportation: req.body.mode,
+		miles: req.body.miles
+	};
 
-  db.one('INSERT INTO $6~ (users_id, companies_id, mode_of_transportation, miles_commuted, commute_date)' +
+	db.one('INSERT INTO $6~ (users_id, companies_id, mode_of_transportation, miles_commuted, commute_date)' +
           'VALUES ($1, $2, $3, $4, $5) RETURNING *;', [req.user.users_id, req.user.company_id,
           commute.modeOfTransportation, commute.miles, commute.date, req.user.company_name])
-    .then(function (data) {
-      console.log('Insert into commute table ', data);
-      res.status(200).send(data);
-    })
-    .catch(function (error) {
-      console.log('Error doing insert into commute table ', error);
-      res.status(500).end();
-    });
+	.then(function (data) {
+		console.log('Insert into commute table ', data);
+		res.status(200).send(data);
+	})
+	.catch(function (error) {
+		console.log('Error doing insert into commute table ', error);
+		res.status(500).end();
+	});
 
   // // Connects to the database
   // pg.connect(connection, function(err, client, done) {

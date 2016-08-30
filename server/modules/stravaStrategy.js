@@ -7,11 +7,11 @@ router.get('/',
 );
 
 router.get('/callback',
-  passport.authenticate('strava',{ failureRedirect: '/' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('../../views/home.html');
-  }
+	passport.authenticate('strava',{ failureRedirect: '/' }),
+	function(req, res) {
+		// Successful authentication, redirect home.
+		res.redirect('../../views/home.html');
+	}
 );
 
 

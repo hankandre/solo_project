@@ -3,20 +3,20 @@ var db = require('../modules/connection');
 
 // Pulls all the employees for a company, when an admin user logs in
 router.get('/', function(req, res) {
-  console.log(req.body);
-  console.log('employees req.user ', req.user);
+	console.log(req.body);
+	console.log('employees req.user ', req.user);
 
 
-  db.any('SELECT * FROM users ON ($1~.users_id = users.id) JOIN login ON ($1~.login_id = login.id);',
-        [req.user.company_name])
-    .then(function (data) {
-      console.log(data);
-      res.status(200).send(data);
-    })
-    .then(function (error) {
-      console.log('Error fetching employees from db ', error);
-      res.status(500).send(error);
-    });
+	db.any('SELECT * FROM users ON ($1~.users_id = users.id) JOIN login ON ($1~.login_id = login.id);',
+		[req.user.company_name])
+		.then(function (data) {
+			console.log(data);
+			res.status(200).send(data);
+		})
+		.then(function (error) {
+			console.log('Error fetching employees from db ', error);
+			res.status(500).send(error);
+		});
 
   // Connects to the database
   // pg.connect(connection, function (err, client, done) {

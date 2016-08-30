@@ -3,52 +3,51 @@ var db = require('../modules/connection');
 var encryptLib = require('../modules/encryption');
 
 
-router.get('/', function(req, res, next) {
-    res.sendFile(path.resolve(__dirname, '../../public/views/index.html'));
+router.get('/', function(req, res) {
+	res.sendFile(path.resolve(__dirname, '../../public/views/index.html'));
 });
 
 // Handles POST request with new user data
-router.post('/', function(req, res, next) {
+router.post('/', function(req, res) {
 
   // Builds the object to post info to the database.
-  var saveUser = {
-    email: req.body.email,
-    password: encryptLib.encryptPassword(req.body.password),
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    company: req.body.company,
-    benefit_type: req.body.benefit,
-    address: req.body.address,
-    address2: req.body.address2,
-    zip_code: req.body.zip,
-    city: req.body.city,
-    state: req.body.state,
-    sex: req.body.sex,
-    age: req.body.age,
-    birthdate: req.body.birthdate,
-  };
+	var saveUser = {
+		email: req.body.email,
+		password: encryptLib.encryptPassword(req.body.password),
+		first_name: req.body.first_name,
+		last_name: req.body.last_name,
+		company: req.body.company,
+		benefit_type: req.body.benefit,
+		address: req.body.address,
+		address2: req.body.address2,
+		zip_code: req.body.zip,
+		city: req.body.city,
+		state: req.body.state,
+		sex: req.body.sex,
+		age: req.body.age,
+		birthdate: req.body.birthdate,
+	};
 
   // Results from the various queries will be pushed to this empty array.
-  db.tx(function() {
-    var queries = [
-      db.none('INSERT INTO login (email, password) VALUES ($1, $2)', [saveUser.email, saveUser.password]),
-      db.one('INSERT INTO users (first_name, last_name, company_id, address, address2, zip_code, city, state, age, ' +
+	db.tx(function() {
+		var queries = [
+			db.none('INSERT INTO login (email, password) VALUES ($1, $2)', [saveUser.email, saveUser.password]),
+			db.one('INSERT INTO users (first_name, last_name, company_id, address, address2, zip_code, city, state, age, ' +
         'sex, birthdate, login_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, (SELECT id FROM login WHERE ' +
         'email = $12)) RETURNING first_name, last_name;',
         [saveUser.first_name, saveUser.last_name, saveUser.company, saveUser.address, saveUser.address2, 
           saveUser.zip_code, saveUser.city, saveUser.state, saveUser.age, saveUser.sex, saveUser.birthdate,
-          saveUser.email])
-    ];
+          saveUser.email])];
     
-    return this.batch(queries);
-  })
-    .then(function (data) {
-      console.log('Inserted data for user ', data);
-      res.end();
-    })
-    .catch(function (error) {
-      console.log('Error inserting user ', error);
-    });
+		return this.batch(queries);
+	})
+	.then(function (data) {
+		console.log('Inserted data for user ', data);
+		res.end();
+	})
+	.catch(function (error) {
+		console.log('Error inserting user ', error);
+	});
 
 // // Opens the connection to the database.
 //   pg.connect(connection, function(err, client, done) {

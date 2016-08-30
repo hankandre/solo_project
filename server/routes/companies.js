@@ -5,14 +5,14 @@ var db = require('../modules/connection');
 router.get('/', function(req, res) {
   // Attempts to connect to the database.
 
-  db.many('SELECT * FROM companies')
-    .then(function (data) {
-      res.status(200).send(data);
-    })
-    .catch(function (error) {
-      console.log('Error finding companies ', error);
-      res.status(500).send(error);
-    });
+	db.many('SELECT * FROM companies')
+		.then(function (data) {
+			res.status(200).send(data);
+		})
+		.catch(function (error) {
+			console.log('Error finding companies ', error);
+			res.status(500).send(error);
+		});
 
 });
 
