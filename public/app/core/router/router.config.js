@@ -22,7 +22,7 @@
 				controller: 'AuthenticationController',
 				controllerAs: 'auth'
 			})
-			.state('registration', {
+			.state('register', {
 				url: '/register',
 				templateUrl: '/public/app/registration/registration.html',
 				controller: 'RegistrationController',
