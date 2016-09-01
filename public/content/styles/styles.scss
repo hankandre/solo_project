@@ -1,13 +1,36 @@
+
+
+
+$text-color: rgb(87,87,87);
+$base-background: #C7E8A2;
+
+body {
+  height: 100%;
+}
+
+.header {
+  background-color: $base-background;
+  div {
+  background-color: $base-background;
+  }
+  a {
+  background-color: $base-background;
+  }
+}
+
+.homescreen {
+  height: 500px;
+}
+
 .full-width {
   max-width: 1400px;
 }
 
-$text-color: #fff;
 
 // footer CSS
 
 .footer {
-  background-color: #2980b9;
+  background-color: $base-background;
   padding: 2rem 4rem;
   text-align: center;
   color: $text-color;
@@ -17,24 +40,25 @@ $text-color: #fff;
 }
 
 .footer {
+  display: inline-block;
   h4 {
     color: $text-color;
     font-size: 1em;
     font-weight: 400;
     text-transform: uppercase;
-    margin-top: 2.5rem;
-    margin-bottom: 10px;
+    margin: 2.5rem 0 10px 0;
   }
   p, a {
     font-weight: 300; 
     font-size: .8em;
     color: $text-color;
   }
+ 
 }
 
 @media only screen and (min-width: 40.063em) {
 .footer {
-  .columns:nth-child(n+2) {
+  .grid-content:nth-child(n+2) {
     border-left: 1px solid scale-color($text-color, $lightness: -30%);
     min-height: 280px;
   }

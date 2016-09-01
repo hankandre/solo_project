@@ -1,10 +1,18 @@
-<header class="title-bar">
+<header class="menu-group header">
   <!-- Title -->
-  <a class="title left" ui-sref="home"><span>Commutr</span></a>
+  <div class="menu-group-left">
+    <ul class="menu-bar">
+      <li class="notable-logo">
+        <a ui-sref="app.home">
+          <span class="title">Commutr</span>
+        </a>
+      </li>
+    </ul>
+  </div>
   <!-- Navigation -->
-  <nav class="right">
-    <a class="link" ui-sref="register">Register</a>
-    <a class="link" ui-sref="auth">Login</a>
-    <a class="link" ui-sref="about">About</a>
-  </nav>
+  <div class="menu-group-right">
+    <ul class="horizontal menu-bar">
+      <li><a ui-sref="app.auth"><i class="material-icons">menu</i></a></li>
+    </ul>
+  </div>
 </header>

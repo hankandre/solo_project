@@ -10,10 +10,7 @@ let $ = gulpLoadPlugins({lazy: true});
  * Gulp Watch
  */
 // Watches for a file change/add and injects it into the index.html
-let watcher = gulp.watch(['public/app/**/*.js', 'public/app/**/*.html'], ['inject']);
-watcher.on('change', function(event) {
-	log('File ' + $.util.colors.red(event.path) + ' was ' + $.util.colors.red(event.type) + ', running tasks...');
-});
+
 
 
 /**
@@ -108,10 +105,16 @@ gulp.task('inject', ['clean:temp', 'babel', 'templateCache', 'styles'], () => {
 // Implements nodemon along with various tasks
 gulp.task('serve-dev', () => {
 
+	let watcher = gulp.watch(['public/**/*.*'], ['inject']);
+	
+	watcher.on('changed', function(event) {
+		log('File ' + $.util.colors.red(event.path) + ' was ' + $.util.colors.red(event.type) + ', running tasks...');
+	});
+
 	return $.nodemon({
 		script: 'server/app.js',
 		ext: 'html js',
-		watch: 'server/**'
+		watch: 'server/**/*.js'
 	})
 	.on('restart', (ev) => {
 		log('** nodemon restarted **');
