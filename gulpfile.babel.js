@@ -1,12 +1,10 @@
 'use strict';
 
 import gulp from 'gulp';
+import browserSync from 'browser-sync';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
-let $ = gulpLoadPlugins({
-		DEBUG: false,
-		lazy: true
-});
+let $ = gulpLoadPlugins({lazy: true});
 
 /**
  * Gulp Watch
@@ -108,11 +106,30 @@ gulp.task('inject', ['clean:temp', 'babel', 'templateCache', 'styles'], () => {
 });
 
 // Implements nodemon along with various tasks
-gulp.task('nodemon', () => {
+gulp.task('serve-dev', () => {
 
 	return $.nodemon({
 		script: 'server/app.js',
-		ext: 'html js'
+		ext: 'html js',
+		watch: 'server/**'
+	})
+	.on('restart', (ev) => {
+		log('** nodemon restarted **');
+		log('files changed on restart:\n' + ev);
+		setTimeout(() => {
+			browserSync.notify('Server restarted. Reloading.');
+			browserSync.reload({stream: false});
+		}, 1000)
+	})
+	.on('start', () => {
+		log('** nodemon started **');
+		setTimeout(startBrowserSync, 1000);
+	})
+	.on('crash', () => {
+		log('** nodemon crashed **');
+	})
+	.on('exit', () => {
+		log('** nodemon exited cleanly **');
 	})
 });
 
@@ -137,4 +154,29 @@ function clean(path, done) {
 		log('Cleaning: ' + $.util.colors.red(path));
 
 		return del(path, done);
+}
+
+function startBrowserSync() {
+	if (browserSync.active) {
+		return;
+	}
+
+	let options = {
+		proxy: 'localhost:5000',
+		port: 3000,
+		files: 'temp/**',
+		ghostMode: {
+			clicks: true,
+			location: false,
+			froms: true,
+			scroll: true
+		},
+		injectChanges: true,
+		logFileChanges: true,
+		logPrefix: 'browserSync',
+		notify: true,
+		reloadDelay: 1500
+	};
+
+	return browserSync.init(options);
 }
