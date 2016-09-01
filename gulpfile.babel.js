@@ -48,47 +48,60 @@ gulp.task('lint', () => {
 });
 
 // Babels all my code and puts in in the temp/js directory
-gulp.task('babel', () => {
+gulp.task('babel', ['clean:temp'], () => {
 
-	 return gulp
-				.src('public/app/**/*.js')
-				.pipe($.babel({
-						presets: ['es2015']
-				}))
-				.pipe(gulp.dest('temp/js'));
+	return gulp
+		.src('public/app/**/*.js')
+		.pipe($.babel({
+				presets: ['es2015']
+		}))
+		.pipe(gulp.dest('temp/js'));
 		
 });
 
 // Minifies all my html and puts it into an Angular Templatecache; making things faster.
-gulp.task('templateCache', () => {
+gulp.task('templateCache', ['babel'], () => {
 
-	 return gulp
-				.src('public/app/**/*.html')
-				.pipe($.htmlmin({
-					collapseWhitespace: true,
-					removeComments: true,
-					caseSensitive: true,
-					collapseInlineTagWhitespace: true
-				}))
-				.pipe($.angularTemplatecache(
-						'templates.js',
-						{
-								module:'app',
-								standalone: false,
-								root: '/public/app/'
-						}
-				))
-				.pipe(gulp.dest('temp/js/templates'))  ;   
+	return gulp
+		.src('public/app/**/*.html')
+		.pipe($.htmlmin({
+			collapseWhitespace: true,
+			removeComments: true,
+			caseSensitive: true,
+			collapseInlineTagWhitespace: true
+		}))
+		.pipe($.angularTemplatecache(
+				'templates.js',
+				{
+						module:'app',
+						standalone: false,
+						root: '/public/app/'
+				}
+		))
+		.pipe(gulp.dest('temp/js/templates'));
+		
+});
+
+// Compile SASS and inject it into index.html
+gulp.task('styles', ['templateCache'], () => {
+	
+	return gulp.src('public/content/styles/styles.scss')
+		.pipe($.sass().on('error', $.sass.logError))
+		.pipe(gulp.dest('./temp/styles/'));
+	
 });
 
 // Injects all of the *.js files in temp/js into the index.html
-gulp.task('inject', ['clean:temp', 'babel', 'templateCache'], () => {
+gulp.task('inject', ['clean:temp', 'babel', 'templateCache', 'styles'], () => {
 
 	 return gulp
 				.src('public/index.html')
 				.pipe($.inject(
-						gulp.src('temp/js/**/*.js', {read: true})
-						.pipe($.angularFilesort()).pipe($.angularFilesort())
+					gulp.src('temp/js/**/*.js', {read: true})
+					.pipe($.angularFilesort()).pipe($.angularFilesort())
+				))
+				.pipe($.inject(
+					gulp.src('temp/styles/**/*.css', {read: false})
 				))
 				.pipe(gulp.dest('public/'));
 		
@@ -123,7 +136,5 @@ function log(msg) {
 function clean(path, done) {
 		log('Cleaning: ' + $.util.colors.red(path));
 
-		del(path);
-		
-		return done();
+		return del(path, done);
 }
