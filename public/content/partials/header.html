@@ -12,7 +12,14 @@
   <!-- Navigation -->
   <div class="menu-group-right">
     <ul class="horizontal menu-bar">
-      <li><a ui-sref="app.auth"><i class="material-icons">menu</i></a></li>
+      <li class="has-dropdown">
+          <i class="material-icons">menu</i>
+        <ul class="dropdown-content" data-dropdown-menu>
+            <li>
+              <span><a ui-sref="app.auth">Login</a></span>
+            </li>
+          </ul>
+        </li>
     </ul>
   </div>
 </header>

@@ -103,7 +103,7 @@ gulp.task('inject', ['clean:temp', 'babel', 'templateCache', 'styles'], () => {
 });
 
 // Implements nodemon along with various tasks
-gulp.task('serve-dev', () => {
+gulp.task('serve-dev', ['inject'], () => {
 
 	let watcher = gulp.watch(['public/**/*.*'], ['inject']);
 	

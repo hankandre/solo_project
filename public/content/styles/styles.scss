@@ -27,6 +27,22 @@ body {
   max-width: 1400px;
 }
 
+.has-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.has-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    list-style: none;
+    background: $base-background;
+    left: -21px;
+    right: auto;
+    top: 45px;
+    z-index: 9999;
+}
+
 
 // footer CSS
 
