@@ -21,13 +21,24 @@ body {
 }
 
 .homescreen {
-  height: 700px;
+  height: 650px;
   background: url('/public/content/images/home-green-bike.jpg') center/cover;
-  div, h3, h4{
-    color: $text-color;
-  }
   .splash-message {
-    background-color: rgba($banner-text-color, 0.25);
+    background-color: rgba($banner-text-color, 0.55);
+    max-width: 100%;
+    padding: 2rem;
+    border-radius: 10px;
+    div, h3, h5{
+      color: $text-color;
+    }
+    .call-to-action {
+      font-weight: bolder;
+      max-width: 80%;
+
+    }
+    .message {
+      margin: 1rem 0;
+    }
   }
 }
 
@@ -53,7 +64,7 @@ body {
   h4 {
     color: $banner-text-color;
     font-size: 1em;
-    font-weight: 400;
+    font-weight: 600;
     text-transform: uppercase;
     margin: 2.5rem 0 10px 0;
   }
