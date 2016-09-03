@@ -1,11 +1,13 @@
 
 
 
-$text-color: rgb(87,87,87);
+$banner-text-color: rgb(87,87,87);
+$text-color: #F7F7F7;
 $base-background: #C7E8A2;
 
 body {
   height: 100%;
+  color: $text-color;
 }
 
 .header {
@@ -21,6 +23,12 @@ body {
 .homescreen {
   height: 700px;
   background: url('/public/content/images/home-green-bike.jpg') center/cover;
+  div, h3, h4{
+    color: $text-color;
+  }
+  .splash-message {
+    background-color: rgba($banner-text-color, 0.25);
+  }
 }
 
 .full-width {
@@ -34,7 +42,7 @@ body {
   background-color: $base-background;
   padding: 2rem 4rem;
   text-align: center;
-  color: $text-color;
+  color: $banner-text-color;
   i {
     font-size: 100px;
   }
@@ -43,7 +51,7 @@ body {
 .footer {
   display: inline-block;
   h4 {
-    color: $text-color;
+    color: $banner-text-color;
     font-size: 1em;
     font-weight: 400;
     text-transform: uppercase;
@@ -52,7 +60,7 @@ body {
   p, a {
     font-weight: 300; 
     font-size: .8em;
-    color: $text-color;
+    color: $banner-text-color;
   }
  
 }
@@ -60,7 +68,7 @@ body {
 @media only screen and (min-width: 40.063em) {
 .footer {
   .grid-content:nth-child(n+2) {
-    border-left: 1px solid scale-color($text-color, $lightness: -30%);
+    border-left: 1px solid scale-color($banner-text-color, $lightness: -30%);
     min-height: 280px;
   }
  }
