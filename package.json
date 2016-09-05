@@ -11,6 +11,7 @@
   "author": "Hank Andre",
   "license": "ISC",
   "dependencies": {
+    "amcharts": "^3.14.5",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
     "angular-aria": "^1.5.8",
