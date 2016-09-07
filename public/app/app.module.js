@@ -4,6 +4,10 @@
 		'app.core',
 		'app.home',
 		'app.auth',
-		'app.registration'
+		'app.registration',
+		/**
+		 * Vendor Modules
+		 */
+		'foundation'
 	]);
 })();
