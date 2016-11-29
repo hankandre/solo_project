@@ -1,22 +1,37 @@
 
 
 
-$bannerTextColor: rgb(87,87,87);
-$textColor: #F7F7F7;
+$textColor: rgb(87,87,87);
+$bannerTextColor: #F7F7F7;
 $highlightBackground: #C7E8A2;
 
-body {
+body, a {
   margin: 0;
   padding: 0;
   height: 100%;
   color: $textColor;
   font-family: 'Raleway', 'Arial', sans-serif;
-  position: relative
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
 }
 
 ul {
   list-style: none;
   padding-left: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+body > section {
+  padding: 0;
+  margin: 0;
 }
 
 .header, .footer {
@@ -27,7 +42,7 @@ ul {
   justify-content: space-between;
   align-items: center;
   .logo  {
-    padding: 15px 0 0 15px;
+    padding-left: 10px;
     max-width: 100px;
     img {
       width: 100%;
@@ -35,19 +50,33 @@ ul {
   }
   .nav-links {
     padding-left: 0;
-    width: 25%;
+    min-width: 15%;
     display: flex;
     flex-direction: row;
     list-style: none;
     justify-content: space-around;
-    a {
-      text-decoration: none;
-    }
   }
 }
 
 .footer {
+  position: absolute;
+  bottom: 0;
   & > * {
     display: flex;
+    padding: 2vh 2vw;
   }
+  div {
+    &:first-of-type,
+    &:nth-of-type(2) {
+      max-width: 33%;
+    }
+    i {
+      margin-right: 15px;
+    }
+  }
+}
+
+
+.landing-page {
+  min-height: 100vh;
 }
