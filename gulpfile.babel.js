@@ -58,7 +58,7 @@ gulp.task('babel', ['clean:temp'], () => {
 gulp.task('templateCache', ['babel'], () => {
 
 	return gulp
-		.src('public/app/**/*.html')
+		.src(['public/content/**/*.html', 'public/**/*.html'])
 		.pipe($.htmlmin({
 			collapseWhitespace: true,
 			removeComments: true,

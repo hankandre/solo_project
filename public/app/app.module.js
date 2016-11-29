@@ -8,6 +8,5 @@
 		/**
 		 * Vendor Modules
 		 */
-		'foundation'
 	]);
 })();

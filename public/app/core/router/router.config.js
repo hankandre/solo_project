@@ -7,27 +7,27 @@
 	routerConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 	function routerConfig($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise('/home');
+		$urlRouterProvider.otherwise('/');
 
 		$stateProvider
 			.state('app', {
 				url: '',
 				template: `
-					<ng-include src="'public/content/partials/header.html'"></ng-include>
+					<header class="header" ng-include="'/public/content/partials/header.html'"></header>
 					<section ui-view></section>
-					<ng-include src="'public/content/partials/footer.html'"></ng-include>
+					<footer class="footer" ng-include="'/public/content/partials/footer.html'"></footer>
 				`,
 				abstract: true,
 
 			})
 			.state('app.home', {
-				url: '/home',
+				url: '/',
 				templateUrl: '/public/app/home/home.html',
 				controller: 'HomeController',
 				controllerAs: 'home'
 			})
 			.state('app.auth', {
-				url: '/auth',
+				url: '/login',
 				templateUrl: '/public/app/authentication/authentication.html',
 				controller: 'AuthenticationController',
 				controllerAs: 'auth'

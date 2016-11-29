@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/app.js",
+    "start": "gulp serve-dev",
     "babel": "babel ./{public/,server/}"
   },
   "author": "Hank Andre",
@@ -25,7 +25,7 @@
     "dotenv": "^2.0.0",
     "express": "^4.13.1",
     "express-session": "^1.14.1",
-    "foundation-apps": "^1.2.0",
+    "normalize.css": "^5.0.0",
     "passport": "^0.2.2",
     "passport-fitbit": "^1.1.0",
     "passport-local": "^1.0.0",
