@@ -34,49 +34,72 @@ body > section {
   margin: 0;
 }
 
-.header, .footer {
-  box-sizing: border-box;
-  background-color: $highlightBackground;
+.header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  .logo  {
-    padding-left: 10px;
+  height: 35vh;
+  position: fixed;
+  top: 2%;
+  left: .5%;
+  .logo {
     max-width: 100px;
+    overflow: hidden;
     img {
+      border-radius: 50%;
       width: 100%;
+      height: auto;
     }
   }
   .nav-links {
-    padding-left: 0;
-    min-width: 15%;
+    height: 75%;
     display: flex;
-    flex-direction: row;
-    list-style: none;
+    flex-direction: column;
     justify-content: space-around;
+    & * {
+      color: $bannerTextColor;
+    }
+  }
+  .hide {
+    display: none;
+  }
+  .show {
+    display: flex;
   }
 }
 
 .footer {
+  display: flex;
+  flex-direction: row;
   position: absolute;
   bottom: 0;
-  & > * {
-    display: flex;
-    padding: 2vh 2vw;
-  }
-  div {
-    &:first-of-type,
-    &:nth-of-type(2) {
-      max-width: 33%;
-    }
-    i {
-      margin-right: 15px;
-    }
-  }
 }
-
 
 .landing-page {
   min-height: 100vh;
+  background-image: url('/public/content/images/home-green-bike.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  // position: relative;
+  & > * {
+    display: none;
+  }
+  p {
+    color: $bannerTextColor;
+  }
+  .overlay {
+    position: absolute;
+    background-color: rgba(0,0,0, .6);
+    width: 40vw;
+    height: 40vh;
+    padding: 3vw;
+    top: 15%;
+    right: 15%;
+    border-radius: 15px;
+    color: $bannerTextColor;
+    h1 {
+      font-size: 8vh;
+    }
+  }
 }
