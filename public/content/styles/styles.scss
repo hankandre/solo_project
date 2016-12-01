@@ -38,33 +38,35 @@ body > section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 35vh;
   position: fixed;
   top: 2%;
   left: .5%;
-  .logo {
-    max-width: 100px;
-    overflow: hidden;
-    img {
-      border-radius: 50%;
-      width: 100%;
-      height: auto;
+  svg {
+    padding: 0;
+    margin: 0;
+    &:hover {
+      transform: rotate(180deg);
+      
     }
   }
   .nav-links {
-    height: 75%;
+    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    overflow:hidden;
+    max-height:0;
+    height: 100%;
+    -webkit-transition:max-height 500ms ease;
+    -moz-transition:max-height 500ms ease;
+    -o-transition:max-height 500ms ease;
+    transition:max-height 500ms ease;
     & * {
       color: $bannerTextColor;
     }
   }
-  .hide {
-    display: none;
-  }
-  .show {
-    display: flex;
+  svg:hover .nav-links {
+    max-height: 150px;
   }
 }
 
