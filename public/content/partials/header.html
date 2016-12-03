@@ -4,12 +4,19 @@
   "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
   <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
   width="50" height="50" viewBox="2500 -3000 5000 10"
-  preserveAspectRatio="xMidYMid meet" id="logo">
+  preserveAspectRatio="xMidYMid meet" id="logo" ui-sref="app.home">
   <metadata>
   Created by potrace 1.13, written by Peter Selinger 2001-2015
   </metadata>
+  <defs>
+    <filter id="f3" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceAlpha" dx="55" dy="55" />
+      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs>
   <g transform="scale(1,-1)"
-  fill="#fff" stroke="none">
+  fill="#fff" stroke="#f5f5f5" stroke-width="1" filter="url(#f3)">
   <path d="M4890 5429 c-306 -27 -619 -116 -860 -246 -509 -273 -950 -776 -1125
   -1282 -173 -502 -174 -1070 -4 -1576 40 -119 153 -348 226 -460 222 -339 563
   -652 913 -838 192 -102 449 -184 701 -224 160 -25 566 -25 726 0 523 83 926
@@ -19,11 +26,11 @@
   -859 -1260 -1574 -1404 -713 -144 -1407 53 -1914 543 -373 361 -589 790 -646
   1290 -16 137 -8 494 15 616 90 499 332 921 718 1251 472 404 1047 571 1685
   488z"/>
-  <path d="M5024 4661 c-27 -16 -54 -73 -224 -467 -107 -247 -258 -595 -336
+  <path filter="url(#f3)" d="M5024 4661 c-27 -16 -54 -73 -224 -467 -107 -247 -258 -595 -336
   -774 -77 -179 -139 -329 -137 -335 4 -12 720 -429 743 -433 8 -2 308 -173 665
   -381 358 -208 651 -377 653 -376 2 2 -263 620 -589 1374 -541 1253 -595 1373
   -625 1391 -40 26 -109 26 -150 1z"/>
-  <path d="M4266 2958 c-7 -18 -113 -264 -236 -546 -122 -282 -220 -515 -219
+  <path filter="url(#f3)" d="M4266 2958 c-7 -18 -113 -264 -236 -546 -122 -282 -220 -515 -219
   -516 7 -6 1177 679 1177 689 0 12 -673 405 -693 405 -8 0 -21 -15 -29 -32z"/>
   </g>
   </svg>
