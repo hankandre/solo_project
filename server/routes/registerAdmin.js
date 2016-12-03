@@ -30,7 +30,7 @@ router.post('/', function(req, res, next) {
 		birthdate: req.body.birthdate,
 		admin: true
 	};
-
+	console.log(saveAdmin);
 	db.tx(function() {
 
 		var queries = [

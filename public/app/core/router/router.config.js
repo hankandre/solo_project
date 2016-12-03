@@ -10,7 +10,7 @@
 		$urlRouterProvider.otherwise('/');
 
 		$stateProvider
-			.state('app', {
+			.state('base', {
 				url: '',
 				template: `
 					<header class="header" ng-include="'/public/content/partials/header.html'"></header>
@@ -20,19 +20,19 @@
 				abstract: true,
 
 			})
-			.state('app.home', {
+			.state('base.home', {
 				url: '/',
 				templateUrl: '/public/app/home/home.html',
 				controller: 'HomeController',
 				controllerAs: 'home'
 			})
-			.state('app.auth', {
+			.state('base.auth', {
 				url: '/login',
 				templateUrl: '/public/app/authentication/authentication.html',
 				controller: 'AuthenticationController',
 				controllerAs: 'auth'
 			})
-			.state('app.register', {
+			.state('base.register', {
 				url: '/register',
 				templateUrl: '/public/app/registration/registration.html',
 				controller: 'RegistrationController',

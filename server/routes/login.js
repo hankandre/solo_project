@@ -13,22 +13,10 @@ router.post('/', function(req, res, next) {
 			return next(err);
 		}
 		else if (!user) {
-			console.log('No user found!');
-			return res.redirect('../views/failure.html');
+			res.send(info.message);
 		}
 		else {
-			req.logIn(user, function(err) {
-				if (err) {
-					console.log('login error: ' + err);
-					return next(err);
-				}
-				else if (user.admin) {
-					return res.redirect('../views/home.html');
-				}
-				else {
-					return res.redirect('../views/home.html');
-				}
-			});
+			res.send(user);
 		}
 	})(req, res, next);
 });
